@@ -9,8 +9,74 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhatIfRouteImport } from './routes/what-if'
+import { Route as WeatherRouteImport } from './routes/weather'
+import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SchemesRouteImport } from './routes/schemes'
+import { Route as ScanRouteImport } from './routes/scan'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as MandiRouteImport } from './routes/mandi'
+import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WhatIfRoute = WhatIfRouteImport.update({
+  id: '/what-if',
+  path: '/what-if',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeatherRoute = WeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemesRoute = SchemesRouteImport.update({
+  id: '/schemes',
+  path: '/schemes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScanRoute = ScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MandiRoute = MandiRouteImport.update({
+  id: '/mandi',
+  path: '/mandi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyzeRoute = AnalyzeRouteImport.update({
+  id: '/analyze',
+  path: '/analyze',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +85,186 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analyze': typeof AnalyzeRoute
+  '/assistant': typeof AssistantRoute
+  '/mandi': typeof MandiRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/scan': typeof ScanRoute
+  '/schemes': typeof SchemesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tasks': typeof TasksRoute
+  '/weather': typeof WeatherRoute
+  '/what-if': typeof WhatIfRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analyze': typeof AnalyzeRoute
+  '/assistant': typeof AssistantRoute
+  '/mandi': typeof MandiRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/scan': typeof ScanRoute
+  '/schemes': typeof SchemesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tasks': typeof TasksRoute
+  '/weather': typeof WeatherRoute
+  '/what-if': typeof WhatIfRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analyze': typeof AnalyzeRoute
+  '/assistant': typeof AssistantRoute
+  '/mandi': typeof MandiRoute
+  '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
+  '/scan': typeof ScanRoute
+  '/schemes': typeof SchemesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tasks': typeof TasksRoute
+  '/weather': typeof WeatherRoute
+  '/what-if': typeof WhatIfRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/analyze'
+    | '/assistant'
+    | '/mandi'
+    | '/onboarding'
+    | '/profile'
+    | '/scan'
+    | '/schemes'
+    | '/sitemap.xml'
+    | '/tasks'
+    | '/weather'
+    | '/what-if'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/analyze'
+    | '/assistant'
+    | '/mandi'
+    | '/onboarding'
+    | '/profile'
+    | '/scan'
+    | '/schemes'
+    | '/sitemap.xml'
+    | '/tasks'
+    | '/weather'
+    | '/what-if'
+  id:
+    | '__root__'
+    | '/'
+    | '/analyze'
+    | '/assistant'
+    | '/mandi'
+    | '/onboarding'
+    | '/profile'
+    | '/scan'
+    | '/schemes'
+    | '/sitemap.xml'
+    | '/tasks'
+    | '/weather'
+    | '/what-if'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyzeRoute: typeof AnalyzeRoute
+  AssistantRoute: typeof AssistantRoute
+  MandiRoute: typeof MandiRoute
+  OnboardingRoute: typeof OnboardingRoute
+  ProfileRoute: typeof ProfileRoute
+  ScanRoute: typeof ScanRoute
+  SchemesRoute: typeof SchemesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TasksRoute: typeof TasksRoute
+  WeatherRoute: typeof WeatherRoute
+  WhatIfRoute: typeof WhatIfRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/what-if': {
+      id: '/what-if'
+      path: '/what-if'
+      fullPath: '/what-if'
+      preLoaderRoute: typeof WhatIfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weather': {
+      id: '/weather'
+      path: '/weather'
+      fullPath: '/weather'
+      preLoaderRoute: typeof WeatherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schemes': {
+      id: '/schemes'
+      path: '/schemes'
+      fullPath: '/schemes'
+      preLoaderRoute: typeof SchemesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scan': {
+      id: '/scan'
+      path: '/scan'
+      fullPath: '/scan'
+      preLoaderRoute: typeof ScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mandi': {
+      id: '/mandi'
+      path: '/mandi'
+      fullPath: '/mandi'
+      preLoaderRoute: typeof MandiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analyze': {
+      id: '/analyze'
+      path: '/analyze'
+      fullPath: '/analyze'
+      preLoaderRoute: typeof AnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +277,18 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyzeRoute: AnalyzeRoute,
+  AssistantRoute: AssistantRoute,
+  MandiRoute: MandiRoute,
+  OnboardingRoute: OnboardingRoute,
+  ProfileRoute: ProfileRoute,
+  ScanRoute: ScanRoute,
+  SchemesRoute: SchemesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TasksRoute: TasksRoute,
+  WeatherRoute: WeatherRoute,
+  WhatIfRoute: WhatIfRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
