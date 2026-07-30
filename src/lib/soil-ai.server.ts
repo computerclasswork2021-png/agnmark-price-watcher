@@ -28,7 +28,8 @@ export async function callSoilVision(
   });
 
   if (res.status === 429) throw new Error("AI rate limit reached. Please retry in a minute.");
-  if (res.status === 402) throw new Error("AI credits exhausted for this workspace. Add credits to continue.");
+  if (res.status === 402)
+    throw new Error("AI credits exhausted for this workspace. Add credits to continue.");
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(`Soil AI request failed [${res.status}]: ${body.slice(0, 300)}`);

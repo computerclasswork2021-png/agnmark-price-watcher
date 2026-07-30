@@ -1,4 +1,11 @@
-import type { SoilRecord, HealthResult, Insight, CropFit, FertilizerPlan, RoadmapStep } from "./types";
+import type {
+  SoilRecord,
+  HealthResult,
+  Insight,
+  CropFit,
+  FertilizerPlan,
+  RoadmapStep,
+} from "./types";
 import { evaluateSoil } from "./scoring";
 import { generateInsights } from "./insights";
 import { irrigationAdvice, rankCrops } from "./crops";
@@ -13,7 +20,10 @@ export interface SoilAnalysis {
   irrigation: string;
 }
 
-export function analyzeRecord(record: SoilRecord, tier: "low" | "middle" | "high" = "middle"): SoilAnalysis {
+export function analyzeRecord(
+  record: SoilRecord,
+  tier: "low" | "middle" | "high" = "middle",
+): SoilAnalysis {
   const m = record.measurements;
   const crops = rankCrops(m, record.context.season);
   return {
@@ -27,7 +37,14 @@ export function analyzeRecord(record: SoilRecord, tier: "low" | "middle" | "high
 }
 
 export * from "./types";
-export { evaluateSoil, categorise, CATEGORY_META, IDEAL, TEXTURE_META, sustainabilityScore } from "./scoring";
+export {
+  evaluateSoil,
+  categorise,
+  CATEGORY_META,
+  IDEAL,
+  TEXTURE_META,
+  sustainabilityScore,
+} from "./scoring";
 export { generateInsights } from "./insights";
 export { rankCrops, scoreCrop, yieldForCrop, irrigationAdvice, CROPS } from "./crops";
 export { fertilizerPlan, improvementRoadmap } from "./fertilizer";

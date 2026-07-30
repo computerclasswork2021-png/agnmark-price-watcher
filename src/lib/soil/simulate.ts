@@ -329,7 +329,8 @@ export function simulate(
     const after = iv.apply(before, v);
     const explanation = iv.explain(v, before, after);
     current = after;
-    if (explanation) changes.push({ interventionId: iv.id, label: iv.label, value: v, explanation });
+    if (explanation)
+      changes.push({ interventionId: iv.id, label: iv.label, value: v, explanation });
   }
   return { result: current, changes };
 }

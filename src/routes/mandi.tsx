@@ -12,9 +12,15 @@ export const Route = createFileRoute("/mandi")({
   head: () => ({
     meta: [
       { title: "Mandi Prices — PREDI-FARM X" },
-      { name: "description", content: "Live AGMARKNET mandi prices ranked by net profit after transport cost." },
+      {
+        name: "description",
+        content: "Live AGMARKNET mandi prices ranked by net profit after transport cost.",
+      },
       { property: "og:title", content: "Mandi Prices — PREDI-FARM X" },
-      { property: "og:description", content: "Highest price is not always best. Highest net profit is." },
+      {
+        property: "og:description",
+        content: "Highest price is not always best. Highest net profit is.",
+      },
     ],
   }),
   component: MandiPage,
@@ -39,7 +45,8 @@ function MandiPage() {
 
   async function load() {
     if (!profile) return;
-    setLoading(true); setError(null);
+    setLoading(true);
+    setError(null);
     try {
       const res = await fetchPrices({
         data: { crop: profile.crop, state: profile.state, district: profile.district, limit: 100 },
@@ -62,10 +69,12 @@ function MandiPage() {
 
   const rows: Row[] = useMemo(() => {
     if (!records) return [];
-    return records.map((r, i) => {
-      const km = overrides[`${r.market}-${i}`] ?? defaultKm;
-      return { ...r, distanceKm: km, netPerQuintal: r.modalPrice - perKm * 2 * km };
-    }).sort((a, b) => b.netPerQuintal - a.netPerQuintal);
+    return records
+      .map((r, i) => {
+        const km = overrides[`${r.market}-${i}`] ?? defaultKm;
+        return { ...r, distanceKm: km, netPerQuintal: r.modalPrice - perKm * 2 * km };
+      })
+      .sort((a, b) => b.netPerQuintal - a.netPerQuintal);
   }, [records, overrides, defaultKm, perKm]);
 
   if (hydrated && !profile) {
@@ -81,7 +90,9 @@ function MandiPage() {
       <div className="flex flex-col gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">
-            {lang === "hi" ? "मंडी भाव — शुद्ध लाभ के अनुसार" : "Mandi prices, ranked by net profit"}
+            {lang === "hi"
+              ? "मंडी भाव — शुद्ध लाभ के अनुसार"
+              : "Mandi prices, ranked by net profit"}
           </h1>
           <p className="text-sm text-muted-foreground">
             {lang === "hi"
@@ -97,12 +108,24 @@ function MandiPage() {
         )}
 
         <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface/40 p-3">
-          <label className="text-xs uppercase font-bold text-muted-foreground">{t("distance", lang)}</label>
-          <input type="range" min={1} max={200} value={defaultKm}
-            onChange={(e) => setDefaultKm(Number(e.target.value))} className="flex-1 min-w-[140px]" />
+          <label className="text-xs uppercase font-bold text-muted-foreground">
+            {t("distance", lang)}
+          </label>
+          <input
+            type="range"
+            min={1}
+            max={200}
+            value={defaultKm}
+            onChange={(e) => setDefaultKm(Number(e.target.value))}
+            className="flex-1 min-w-[140px]"
+          />
           <span className="text-sm font-mono tabular-nums">{defaultKm} km</span>
-          <button type="button" onClick={() => void load()} disabled={loading}
-            className="ml-auto rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold uppercase tracking-wide hover:bg-muted disabled:opacity-50">
+          <button
+            type="button"
+            onClick={() => void load()}
+            disabled={loading}
+            className="ml-auto rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold uppercase tracking-wide hover:bg-muted disabled:opacity-50"
+          >
             {loading ? t("loading", lang) : t("refresh", lang)}
           </button>
         </div>
@@ -111,12 +134,21 @@ function MandiPage() {
           <DataUnavailable title="Mandi feed error" reason={error} />
         ) : loading && rows.length === 0 ? (
           <div className="grid gap-2">
-            {Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-20 animate-pulse rounded-lg border border-border bg-surface/40" />)}
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-20 animate-pulse rounded-lg border border-border bg-surface/40"
+              />
+            ))}
           </div>
         ) : rows.length === 0 ? (
           <DataUnavailable
             title={lang === "hi" ? "कोई भाव नहीं मिला" : "No prices found"}
-            reason={lang === "hi" ? "AGMARKNET में इस फसल के हाल के भाव नहीं हैं।" : `AGMARKNET has no recent entries for ${profile?.crop}.`}
+            reason={
+              lang === "hi"
+                ? "AGMARKNET में इस फसल के हाल के भाव नहीं हैं।"
+                : `AGMARKNET has no recent entries for ${profile?.crop}.`
+            }
           />
         ) : (
           <div className="grid gap-2">
@@ -124,33 +156,64 @@ function MandiPage() {
               const key = `${r.market}-${i}`;
               const positive = r.netPerQuintal > 0;
               return (
-                <div key={key} className="rounded-lg border border-border bg-surface/60 p-3 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
+                <div
+                  key={key}
+                  className="rounded-lg border border-border bg-surface/60 p-3 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3"
+                >
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-bold uppercase text-muted-foreground">#{i + 1}</span>
+                      <span className="text-xs font-bold uppercase text-muted-foreground">
+                        #{i + 1}
+                      </span>
                       <h3 className="text-base font-semibold">{r.market || "—"}</h3>
-                      <span className="text-xs text-muted-foreground">{r.district}, {r.state}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {r.district}, {r.state}
+                      </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
                       {r.commodity} · {r.variety || "—"} · {r.arrivalDate || "—"}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-                      <span>{t("modal_price", lang)} <span className="font-mono font-semibold text-foreground">{formatINR(r.modalPrice, lang)}</span>/qtl</span>
+                      <span>
+                        {t("modal_price", lang)}{" "}
+                        <span className="font-mono font-semibold text-foreground">
+                          {formatINR(r.modalPrice, lang)}
+                        </span>
+                        /qtl
+                      </span>
                     </div>
                     <div className="mt-2 flex items-center gap-2">
-                      <label className="text-[10px] uppercase font-bold text-muted-foreground">{t("distance", lang)}</label>
-                      <input type="number" min={1} max={500} value={overrides[key] ?? defaultKm}
-                        onChange={(e) => setOverrides((o) => ({ ...o, [key]: Math.max(1, Number(e.target.value) || 1) }))}
-                        className="w-20 rounded border border-border bg-background px-2 py-1 text-xs font-mono" />
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground">
+                        {t("distance", lang)}
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={500}
+                        value={overrides[key] ?? defaultKm}
+                        onChange={(e) =>
+                          setOverrides((o) => ({
+                            ...o,
+                            [key]: Math.max(1, Number(e.target.value) || 1),
+                          }))
+                        }
+                        className="w-20 rounded border border-border bg-background px-2 py-1 text-xs font-mono"
+                      />
                       <span className="text-xs text-muted-foreground">{t("km_one_way", lang)}</span>
                     </div>
                   </div>
                   <div className="sm:text-right">
-                    <div className="text-[10px] uppercase font-bold text-muted-foreground">{t("net_after_transport", lang)}</div>
-                    <div className={`text-2xl font-mono font-bold tabular-nums ${positive ? "text-emerald-500" : "text-red-500"}`}>
+                    <div className="text-[10px] uppercase font-bold text-muted-foreground">
+                      {t("net_after_transport", lang)}
+                    </div>
+                    <div
+                      className={`text-2xl font-mono font-bold tabular-nums ${positive ? "text-emerald-500" : "text-red-500"}`}
+                    >
                       {formatINR(r.netPerQuintal, lang)}
                     </div>
-                    <div className="text-[11px] text-muted-foreground">{t("per_quintal", lang)}</div>
+                    <div className="text-[11px] text-muted-foreground">
+                      {t("per_quintal", lang)}
+                    </div>
                   </div>
                 </div>
               );

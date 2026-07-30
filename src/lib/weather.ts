@@ -111,17 +111,27 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
   }
 }
 
-export async function geocodePlace(query: string): Promise<{ lat: number; lon: number; label: string } | null> {
+export async function geocodePlace(
+  query: string,
+): Promise<{ lat: number; lon: number; label: string } | null> {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=en&format=json&country=IN`;
   const res = await fetch(url);
   if (!res.ok) return null;
   const j = await res.json();
   const r = j.results?.[0];
   if (!r) return null;
-  return { lat: r.latitude, lon: r.longitude, label: [r.name, r.admin1, r.country].filter(Boolean).join(", ") };
+  return {
+    lat: r.latitude,
+    lon: r.longitude,
+    label: [r.name, r.admin1, r.country].filter(Boolean).join(", "),
+  };
 }
 
-interface Coords { lat: number; lon: number; label?: string }
+interface Coords {
+  lat: number;
+  lon: number;
+  label?: string;
+}
 
 const CACHE_KEY = "predi-farm-x:weather";
 
@@ -175,7 +185,9 @@ export function useWeather(coords: Coords | null) {
 
 export function useGeolocation() {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
-  const [status, setStatus] = useState<"idle" | "prompting" | "granted" | "denied" | "unsupported">("idle");
+  const [status, setStatus] = useState<"idle" | "prompting" | "granted" | "denied" | "unsupported">(
+    "idle",
+  );
   const [error, setError] = useState<string | null>(null);
 
   const request = () => {

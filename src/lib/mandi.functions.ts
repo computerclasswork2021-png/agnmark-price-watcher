@@ -146,73 +146,77 @@ function normalizeCommodity(input: string): string {
 
 export const fetchMandiPrices = createServerFn({ method: "POST" })
   .inputValidator((raw: unknown) => Input.parse(raw))
-  .handler(async ({ data }): Promise<{
-    records: MandiRecord[];
-    source: string;
-    fetchedAt: string;
-    fallbackUsed: "none" | "district-dropped" | "state-dropped" | "commodity-broadened";
-  }> => {
-    const key = process.env.DATA_GOV_IN_API_KEY;
-    if (!key) {
-      throw new Error(
-        "AGMARKNET API key not configured. Add DATA_GOV_IN_API_KEY in project secrets (get one at data.gov.in).",
-      );
-    }
+  .handler(
+    async ({
+      data,
+    }): Promise<{
+      records: MandiRecord[];
+      source: string;
+      fetchedAt: string;
+      fallbackUsed: "none" | "district-dropped" | "state-dropped" | "commodity-broadened";
+    }> => {
+      const key = process.env.DATA_GOV_IN_API_KEY;
+      if (!key) {
+        throw new Error(
+          "AGMARKNET API key not configured. Add DATA_GOV_IN_API_KEY in project secrets (get one at data.gov.in).",
+        );
+      }
 
-    const commodity = normalizeCommodity(data.crop);
-    const state = cap(data.state);
-    const district = data.district ? cap(data.district) : "";
-    const now = new Date().toISOString();
+      const commodity = normalizeCommodity(data.crop);
+      const state = cap(data.state);
+      const district = data.district ? cap(data.district) : "";
+      const now = new Date().toISOString();
 
-    // Tier 1: commodity + state + district
-    if (district) {
-      const r1 = await tryFetch(key, { commodity, state, district }, data.limit);
-      if (r1.length)
+      // Tier 1: commodity + state + district
+      if (district) {
+        const r1 = await tryFetch(key, { commodity, state, district }, data.limit);
+        if (r1.length)
+          return {
+            records: r1,
+            source: `AGMARKNET · ${commodity} · ${district}, ${state}`,
+            fetchedAt: now,
+            fallbackUsed: "none",
+          };
+      }
+
+      // Tier 2: commodity + state
+      const r2 = await tryFetch(key, { commodity, state }, data.limit);
+      if (r2.length)
         return {
-          records: r1,
-          source: `AGMARKNET · ${commodity} · ${district}, ${state}`,
+          records: r2,
+          source: `AGMARKNET · ${commodity} · ${state} (most recent)`,
           fetchedAt: now,
-          fallbackUsed: "none",
+          fallbackUsed: district ? "district-dropped" : "none",
         };
-    }
 
-    // Tier 2: commodity + state
-    const r2 = await tryFetch(key, { commodity, state }, data.limit);
-    if (r2.length)
-      return {
-        records: r2,
-        source: `AGMARKNET · ${commodity} · ${state} (most recent)`,
-        fetchedAt: now,
-        fallbackUsed: district ? "district-dropped" : "none",
-      };
+      // Tier 3: commodity only (nationwide most recent)
+      const r3 = await tryFetch(key, { commodity }, data.limit);
+      if (r3.length)
+        return {
+          records: r3,
+          source: `AGMARKNET · ${commodity} · nationwide (most recent)`,
+          fetchedAt: now,
+          fallbackUsed: "state-dropped",
+        };
 
-    // Tier 3: commodity only (nationwide most recent)
-    const r3 = await tryFetch(key, { commodity }, data.limit);
-    if (r3.length)
+      // Tier 4: try the raw user string (in case alias mapping was wrong)
+      const fallbackCommodity = cap(data.crop);
+      if (fallbackCommodity !== commodity) {
+        const r4 = await tryFetch(key, { commodity: fallbackCommodity }, data.limit);
+        if (r4.length)
+          return {
+            records: r4,
+            source: `AGMARKNET · ${fallbackCommodity} · nationwide`,
+            fetchedAt: now,
+            fallbackUsed: "commodity-broadened",
+          };
+      }
+
       return {
-        records: r3,
-        source: `AGMARKNET · ${commodity} · nationwide (most recent)`,
+        records: [],
+        source: `AGMARKNET · ${commodity}`,
         fetchedAt: now,
         fallbackUsed: "state-dropped",
       };
-
-    // Tier 4: try the raw user string (in case alias mapping was wrong)
-    const fallbackCommodity = cap(data.crop);
-    if (fallbackCommodity !== commodity) {
-      const r4 = await tryFetch(key, { commodity: fallbackCommodity }, data.limit);
-      if (r4.length)
-        return {
-          records: r4,
-          source: `AGMARKNET · ${fallbackCommodity} · nationwide`,
-          fetchedAt: now,
-          fallbackUsed: "commodity-broadened",
-        };
-    }
-
-    return {
-      records: [],
-      source: `AGMARKNET · ${commodity}`,
-      fetchedAt: now,
-      fallbackUsed: "state-dropped",
-    };
-  });
+    },
+  );

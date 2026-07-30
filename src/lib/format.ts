@@ -21,13 +21,15 @@ export function formatKm(v: number, lang: Language = "en"): string {
 
 export function formatIST(iso: string, lang: Language = "en"): string {
   const d = new Date(iso);
-  return d.toLocaleString(lang === "hi" ? "hi-IN" : "en-IN", {
-    timeZone: "Asia/Kolkata",
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  }) + " IST";
+  return (
+    d.toLocaleString(lang === "hi" ? "hi-IN" : "en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    }) + " IST"
+  );
 }
 
 export function formatISTDate(iso: string, lang: Language = "en"): string {

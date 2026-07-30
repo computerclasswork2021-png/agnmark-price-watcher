@@ -12,7 +12,14 @@ export const TEXTURES = [
   "clay",
 ] as const;
 
-export const COLORS = ["very_dark", "dark_brown", "brown", "reddish", "yellowish", "pale_grey"] as const;
+export const COLORS = [
+  "very_dark",
+  "dark_brown",
+  "brown",
+  "reddish",
+  "yellowish",
+  "pale_grey",
+] as const;
 
 export const ExtractionSchema = z.object({
   readable: z.boolean(),

@@ -5,7 +5,14 @@ import { useEffect, useState } from "react";
 export type Language = "en" | "hi";
 
 export type StorageType = "none" | "own_shed" | "cold_storage" | "warehouse" | "cooperative";
-export type TransportType = "none" | "bicycle" | "motorcycle" | "tractor" | "pickup" | "mini_truck" | "truck";
+export type TransportType =
+  | "none"
+  | "bicycle"
+  | "motorcycle"
+  | "tractor"
+  | "pickup"
+  | "mini_truck"
+  | "truck";
 export type IrrigationType = "rainfed" | "canal" | "borewell" | "drip" | "sprinkler";
 export type IncomeTier = "low" | "middle" | "high";
 

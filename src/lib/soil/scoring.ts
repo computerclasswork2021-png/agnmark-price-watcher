@@ -11,7 +11,10 @@ import type {
   SoilTexture,
 } from "./types";
 
-export const TEXTURE_META: Record<SoilTexture, { label: string; retention: number; drainage: number }> = {
+export const TEXTURE_META: Record<
+  SoilTexture,
+  { label: string; retention: number; drainage: number }
+> = {
   sandy: { label: "Sandy", retention: 0.2, drainage: 1.0 },
   loamy_sand: { label: "Loamy sand", retention: 0.35, drainage: 0.9 },
   sandy_loam: { label: "Sandy loam", retention: 0.6, drainage: 0.8 },
@@ -87,7 +90,15 @@ function nutrientFactor(
   tolerance: number,
   weight: number,
   unit: string,
-  copy: { low: string; high: string; ok: string; impactLow: string; impactHigh: string; actionLow: string; actionHigh: string },
+  copy: {
+    low: string;
+    high: string;
+    ok: string;
+    impactLow: string;
+    impactHigh: string;
+    actionLow: string;
+    actionHigh: string;
+  },
 ): FactorScore {
   const score = bandScore(value, lo, hi, tolerance);
   const status = statusFor(value, lo, hi, score);
@@ -100,8 +111,16 @@ function nutrientFactor(
     weight,
     status,
     reasoning: low ? copy.low : value > hi ? copy.high : copy.ok,
-    impact: low ? copy.impactLow : value > hi ? copy.impactHigh : "Supply matches crop demand across the growth cycle.",
-    action: low ? copy.actionLow : value > hi ? copy.actionHigh : "No corrective dose required this season.",
+    impact: low
+      ? copy.impactLow
+      : value > hi
+        ? copy.impactHigh
+        : "Supply matches crop demand across the growth cycle.",
+    action: low
+      ? copy.actionLow
+      : value > hi
+        ? copy.actionHigh
+        : "No corrective dose required this season.",
   };
 }
 
@@ -113,8 +132,10 @@ function scoreNitrogen(m: SoilMeasurements): FactorScore {
     ok: "Available nitrogen sits in the ICAR 'medium-to-high' class, matching the uptake curve of most cereals.",
     impactLow: "Pale lower leaves, thin tillering and 20–35% yield reduction in cereals.",
     impactHigh: "Lodging risk, delayed maturity, higher pest pressure and wasted fertiliser spend.",
-    actionLow: "Split-apply urea: 50% basal, 25% at tillering, 25% at panicle initiation; add 2 t/acre FYM to build the mineralisable pool.",
-    actionHigh: "Skip basal urea this season; grow a heavy-feeding cereal to draw down the surplus.",
+    actionLow:
+      "Split-apply urea: 50% basal, 25% at tillering, 25% at panicle initiation; add 2 t/acre FYM to build the mineralisable pool.",
+    actionHigh:
+      "Skip basal urea this season; grow a heavy-feeding cereal to draw down the surplus.",
   });
 }
 
@@ -124,9 +145,11 @@ function scorePhosphorus(m: SoilMeasurements): FactorScore {
     low: "Olsen-P below 11 kg/ha limits ATP formation and root proliferation, especially in the first 30 days after sowing.",
     high: "Phosphorus above 25 kg/ha antagonises zinc and iron uptake and offers no further yield response.",
     ok: "Phosphorus is in the medium-to-high availability class for the establishment phase.",
-    impactLow: "Weak root systems, purple leaf tinge, poor grain filling — typically 10–20% yield loss.",
+    impactLow:
+      "Weak root systems, purple leaf tinge, poor grain filling — typically 10–20% yield loss.",
     impactHigh: "Induced zinc deficiency and wasted DAP expenditure.",
-    actionLow: "Apply DAP or single super phosphate as a full basal dose in the root zone, plus PSB culture to unlock fixed P.",
+    actionLow:
+      "Apply DAP or single super phosphate as a full basal dose in the root zone, plus PSB culture to unlock fixed P.",
     actionHigh: "Withhold phosphatic fertiliser for 1–2 seasons and monitor zinc.",
   });
 }
@@ -137,9 +160,11 @@ function scorePotassium(m: SoilMeasurements): FactorScore {
     low: "Available K below 120 kg/ha restricts stomatal regulation and phloem loading, so the crop loses its drought and disease buffer.",
     high: "Very high K competes with magnesium and calcium uptake at the root surface.",
     ok: "Potassium is adequate to run osmotic regulation and translocation through grain fill.",
-    impactLow: "Leaf-margin scorching, lodging, poor grain weight and sharply higher drought damage.",
+    impactLow:
+      "Leaf-margin scorching, lodging, poor grain weight and sharply higher drought damage.",
     impactHigh: "Possible magnesium deficiency in sandy soils; no yield gain from further K.",
-    actionLow: "Apply muriate of potash in two splits (basal + flowering) and return crop residue instead of burning it.",
+    actionLow:
+      "Apply muriate of potash in two splits (basal + flowering) and return crop residue instead of burning it.",
     actionHigh: "Stop potash application; monitor Mg and Ca.",
   });
 }
@@ -271,7 +296,10 @@ export function categorise(score: number): HealthCategory {
   return "critical";
 }
 
-export const CATEGORY_META: Record<HealthCategory, { label: string; tone: "good" | "warn" | "bad" }> = {
+export const CATEGORY_META: Record<
+  HealthCategory,
+  { label: string; tone: "good" | "warn" | "bad" }
+> = {
   excellent: { label: "Excellent", tone: "good" },
   good: { label: "Good", tone: "good" },
   moderate: { label: "Moderate", tone: "warn" },
@@ -282,7 +310,8 @@ export const CATEGORY_META: Record<HealthCategory, { label: string; tone: "good"
 const CONFIDENCE: Record<DataSource, { value: number; basis: string; limitations: string[] }> = {
   lab_report: {
     value: 92,
-    basis: "Derived from a laboratory soil health report, so nutrient values are analytically measured.",
+    basis:
+      "Derived from a laboratory soil health report, so nutrient values are analytically measured.",
     limitations: [
       "Accuracy depends on how representative the sampled cores were of the whole field.",
       "Values age — nitrogen and moisture change within weeks of sampling.",
@@ -290,7 +319,8 @@ const CONFIDENCE: Record<DataSource, { value: number; basis: string; limitations
   },
   manual: {
     value: 74,
-    basis: "Derived from values you entered manually; the engine trusts them as given and cannot verify them.",
+    basis:
+      "Derived from values you entered manually; the engine trusts them as given and cannot verify them.",
     limitations: [
       "No cross-check against a laboratory method is possible.",
       "Unit or transcription mistakes propagate directly into the score.",
@@ -298,7 +328,8 @@ const CONFIDENCE: Record<DataSource, { value: number; basis: string; limitations
   },
   photo_estimate: {
     value: 42,
-    basis: "Derived largely from visible surface characteristics in a photograph. This is an estimate, not a measurement.",
+    basis:
+      "Derived largely from visible surface characteristics in a photograph. This is an estimate, not a measurement.",
     limitations: [
       "Photographs cannot measure pH, N, P, K, organic carbon or EC — those values are inferred ranges, not readings.",
       "Lighting, moisture at the time of the photo and surface residue all bias the estimate.",
@@ -313,7 +344,9 @@ export function sustainabilityScore(m: SoilMeasurements): number {
   const structure = TEXTURE_META[m.texture].retention * 100;
   const balance = 100 - Math.min(60, Math.abs(m.nitrogen / 4 - m.potassium / 2) / 4);
   const water = clamp((m.waterHoldingCapacity / 55) * 100);
-  return Math.round(carbon * 0.35 + salinity * 0.2 + structure * 0.15 + balance * 0.15 + water * 0.15);
+  return Math.round(
+    carbon * 0.35 + salinity * 0.2 + structure * 0.15 + balance * 0.15 + water * 0.15,
+  );
 }
 
 export function evaluateSoil(m: SoilMeasurements, source: DataSource): HealthResult {

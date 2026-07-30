@@ -11,7 +11,10 @@ export const Route = createFileRoute("/scan")({
   head: () => ({
     meta: [
       { title: "Crop Disease Scan — PREDI-FARM X" },
-      { name: "description", content: "Upload a leaf photo. AI identifies disease with income-tier-matched treatment." },
+      {
+        name: "description",
+        content: "Upload a leaf photo. AI identifies disease with income-tier-matched treatment.",
+      },
       { property: "og:title", content: "Crop Disease Scan — PREDI-FARM X" },
       { property: "og:description", content: "Photo in, actionable diagnosis out." },
     ],
@@ -54,13 +57,23 @@ function ScanPage() {
           <p className="text-sm text-muted-foreground">{t("scan_sub", lang)}</p>
         </div>
 
-        <input ref={inputRef} type="file" accept="image/*" capture="environment" hidden
-          onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          hidden
+          onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])}
+        />
 
         {!preview && (
-          <button onClick={() => inputRef.current?.click()}
-            className="border-2 border-dashed border-border rounded-2xl p-10 flex flex-col items-center gap-3 bg-surface/50 hover:bg-surface">
-            <div className="size-14 rounded-full bg-brand/10 grid place-items-center"><Camera className="size-6 text-brand" /></div>
+          <button
+            onClick={() => inputRef.current?.click()}
+            className="border-2 border-dashed border-border rounded-2xl p-10 flex flex-col items-center gap-3 bg-surface/50 hover:bg-surface"
+          >
+            <div className="size-14 rounded-full bg-brand/10 grid place-items-center">
+              <Camera className="size-6 text-brand" />
+            </div>
             <span className="text-sm font-semibold">{t("upload_leaf", lang)}</span>
             <span className="text-xs text-muted-foreground">{t("best_single_leaf", lang)}</span>
           </button>
@@ -69,7 +82,10 @@ function ScanPage() {
         {preview && (
           <div className="rounded-2xl overflow-hidden ring-1 ring-black/5 bg-surface">
             <img src={preview} alt="Uploaded leaf" className="w-full h-64 object-cover" />
-            <button onClick={() => inputRef.current?.click()} className="w-full py-2 text-xs font-semibold text-brand">
+            <button
+              onClick={() => inputRef.current?.click()}
+              className="w-full py-2 text-xs font-semibold text-brand"
+            >
               {t("different_photo", lang)}
             </button>
           </div>
@@ -80,7 +96,11 @@ function ScanPage() {
             <Loader2 className="size-4 animate-spin" /> {t("analysing", lang)}
           </div>
         )}
-        {mutation.error && <div className="bg-bad/10 border border-bad/20 text-bad rounded-xl p-3 text-sm">{(mutation.error as Error).message}</div>}
+        {mutation.error && (
+          <div className="bg-bad/10 border border-bad/20 text-bad rounded-xl p-3 text-sm">
+            {(mutation.error as Error).message}
+          </div>
+        )}
         {mutation.data && <DiagnosisCard diag={mutation.data} lang={lang} />}
       </div>
     </AppShell>
@@ -102,11 +122,15 @@ function DiagnosisCard({ diag, lang }: { diag: Diagnosis; lang: "en" | "hi" }) {
 
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{t("diagnosis", lang)}</div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            {t("diagnosis", lang)}
+          </div>
           <h2 className="text-xl font-semibold">{diag.disease}</h2>
           <div className="flex items-center gap-2 mt-1">
             <SeverityChip severity={diag.severity} />
-            <span className="text-xs text-muted-foreground">{t("confidence", lang)} {Math.round(diag.confidence)}%</span>
+            <span className="text-xs text-muted-foreground">
+              {t("confidence", lang)} {Math.round(diag.confidence)}%
+            </span>
           </div>
           <p className="text-xs text-muted-foreground mt-1 italic">{diag.severityReasoning}</p>
         </div>
@@ -133,16 +157,26 @@ function SeverityChip({ severity }: { severity: Diagnosis["severity"] }) {
     severe: "bg-bad/10 text-bad ring-bad/20",
     unknown: "bg-muted text-muted-foreground ring-border",
   };
-  return <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ring-1 ${color[severity]}`}>{severity}</span>;
+  return (
+    <span
+      className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ring-1 ${color[severity]}`}
+    >
+      {severity}
+    </span>
+  );
 }
 
 function Details({ title, items }: { title: string; items: string[] }) {
   if (!items?.length) return null;
   return (
     <div>
-      <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">{title}</div>
+      <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">
+        {title}
+      </div>
       <ul className="list-disc pl-5 text-sm space-y-1 text-foreground/80">
-        {items.map((it, i) => <li key={i}>{it}</li>)}
+        {items.map((it, i) => (
+          <li key={i}>{it}</li>
+        ))}
       </ul>
     </div>
   );

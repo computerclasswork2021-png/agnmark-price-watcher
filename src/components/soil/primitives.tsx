@@ -21,7 +21,15 @@ export function GlassCard({
   );
 }
 
-export function SectionTitle({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
+export function SectionTitle({
+  title,
+  sub,
+  right,
+}: {
+  title: string;
+  sub?: string;
+  right?: ReactNode;
+}) {
   return (
     <div className="flex items-end justify-between gap-3">
       <div>
@@ -65,7 +73,13 @@ export function ScoreGauge({
 
   return (
     <div className="relative grid place-items-center" style={{ width: size, height: size }}>
-      <svg width={size} height={size} className="-rotate-[225deg]" role="img" aria-label={`${label}: ${score} out of 100`}>
+      <svg
+        width={size}
+        height={size}
+        className="-rotate-[225deg]"
+        role="img"
+        aria-label={`${label}: ${score} out of 100`}
+      >
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -86,13 +100,28 @@ export function ScoreGauge({
           strokeLinecap="round"
           strokeDasharray={`${dash} ${circ}`}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 700ms cubic-bezier(0.22,1,0.36,1), stroke 400ms ease" }}
+          style={{
+            transition: "stroke-dashoffset 700ms cubic-bezier(0.22,1,0.36,1), stroke 400ms ease",
+          }}
         />
       </svg>
       <div className="absolute inset-0 grid place-content-center text-center">
-        <div className={cn("font-mono text-4xl font-semibold tabular-nums leading-none", toneClass(tone))}>{score}</div>
-        <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground mt-1.5">{label}</div>
-        {category && <div className={cn("text-xs font-semibold mt-0.5", toneClass(tone))}>{CATEGORY_META[category].label}</div>}
+        <div
+          className={cn(
+            "font-mono text-4xl font-semibold tabular-nums leading-none",
+            toneClass(tone),
+          )}
+        >
+          {score}
+        </div>
+        <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground mt-1.5">
+          {label}
+        </div>
+        {category && (
+          <div className={cn("text-xs font-semibold mt-0.5", toneClass(tone))}>
+            {CATEGORY_META[category].label}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -122,7 +151,9 @@ export function NutrientBar({
     <div className="flex flex-col gap-1.5">
       <div className="flex items-baseline justify-between text-xs">
         <span className="font-medium text-foreground/80">{label}</span>
-        <span className={cn("font-mono tabular-nums font-semibold", inBand ? "text-good" : "text-warn")}>
+        <span
+          className={cn("font-mono tabular-nums font-semibold", inBand ? "text-good" : "text-warn")}
+        >
           {value.toFixed(digits)}
           {unit && <span className="text-muted-foreground font-normal ml-0.5">{unit}</span>}
         </span>
@@ -130,7 +161,10 @@ export function NutrientBar({
       <div className="relative h-2.5 rounded-full bg-muted overflow-hidden">
         <div
           className="absolute inset-y-0 bg-good/20"
-          style={{ left: `${pct(optimal[0])}%`, width: `${Math.max(2, pct(optimal[1]) - pct(optimal[0]))}%` }}
+          style={{
+            left: `${pct(optimal[0])}%`,
+            width: `${Math.max(2, pct(optimal[1]) - pct(optimal[0]))}%`,
+          }}
         />
         <div
           className={cn("absolute inset-y-0 left-0 rounded-full", inBand ? "bg-good" : "bg-warn")}
@@ -157,7 +191,9 @@ export function StatTile({
 }) {
   return (
     <GlassCard className="p-3.5">
-      <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
+      <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </div>
       <div
         className={cn(
           "mt-1 text-sm font-semibold leading-snug",
@@ -193,14 +229,24 @@ export function FactorRow({ factor }: { factor: FactorScore }) {
           </div>
           <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
             <div
-              className={cn("h-full rounded-full", tone === "good" ? "bg-good" : tone === "warn" ? "bg-warn" : "bg-bad")}
-              style={{ width: `${factor.score}%`, transition: "width 600ms cubic-bezier(0.22,1,0.36,1)" }}
+              className={cn(
+                "h-full rounded-full",
+                tone === "good" ? "bg-good" : tone === "warn" ? "bg-warn" : "bg-bad",
+              )}
+              style={{
+                width: `${factor.score}%`,
+                transition: "width 600ms cubic-bezier(0.22,1,0.36,1)",
+              }}
             />
           </div>
         </div>
         <div className="text-right shrink-0">
-          <div className={cn("font-mono text-sm font-semibold tabular-nums", toneClass(tone))}>{Math.round(factor.score)}</div>
-          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">{Math.round(factor.weight * 100)}% wt</div>
+          <div className={cn("font-mono text-sm font-semibold tabular-nums", toneClass(tone))}>
+            {Math.round(factor.score)}
+          </div>
+          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">
+            {Math.round(factor.weight * 100)}% wt
+          </div>
         </div>
       </summary>
       <div className="pb-3 -mt-0.5 grid gap-2 text-xs leading-relaxed">
@@ -215,13 +261,21 @@ export function FactorRow({ factor }: { factor: FactorScore }) {
 export function Explain({ label, text }: { label: string; text: string }) {
   return (
     <div className="grid grid-cols-[64px_1fr] gap-2">
-      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pt-0.5">{label}</span>
+      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pt-0.5">
+        {label}
+      </span>
       <span className="text-foreground/80">{text}</span>
     </div>
   );
 }
 
-export function Pill({ children, tone = "neutral" }: { children: ReactNode; tone?: "neutral" | "good" | "warn" | "bad" | "brand" }) {
+export function Pill({
+  children,
+  tone = "neutral",
+}: {
+  children: ReactNode;
+  tone?: "neutral" | "good" | "warn" | "bad" | "brand";
+}) {
   return (
     <span
       className={cn(

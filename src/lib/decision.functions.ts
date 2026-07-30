@@ -40,13 +40,16 @@ const DecisionSchema = z.object({
   farmRiskScore: z.number().min(0).max(100),
   farmRiskReasoning: z.string(),
   cropQuality: QualityBlock,
-  alternatives: z.array(
-    z.object({
-      action: z.string(),
-      summary: z.string(),
-      profitDeltaRupees: z.number(),
-    }),
-  ).min(1).max(3),
+  alternatives: z
+    .array(
+      z.object({
+        action: z.string(),
+        summary: z.string(),
+        profitDeltaRupees: z.number(),
+      }),
+    )
+    .min(1)
+    .max(3),
   dailyTasks: z.array(z.string()).min(2).max(8),
   sources: z.array(z.string()),
 });
@@ -54,12 +57,10 @@ const DecisionSchema = z.object({
 export type Decision = z.infer<typeof DecisionSchema>;
 
 const TIER_HINT: Record<string, string> = {
-  low:
-    "Farmer INCOME TIER = LOW (< ₹1 lakh/year). Only recommend cheap, DIY, mostly-manual solutions: neem oil, cow dung/vermicompost, jeevamrutha, hand weeding, wood-ash pest control, mulching with local waste, sharing labour with neighbours, free/subsidised govt schemes (PM-KISAN, Soil Health Card, PMFBY). NEVER recommend cold storage, branded pesticides above ₹500, drip irrigation, mechanised harvesters. If a solution costs more than ₹500, mark it clearly as 'if you can borrow via KCC'.",
+  low: "Farmer INCOME TIER = LOW (< ₹1 lakh/year). Only recommend cheap, DIY, mostly-manual solutions: neem oil, cow dung/vermicompost, jeevamrutha, hand weeding, wood-ash pest control, mulching with local waste, sharing labour with neighbours, free/subsidised govt schemes (PM-KISAN, Soil Health Card, PMFBY). NEVER recommend cold storage, branded pesticides above ₹500, drip irrigation, mechanised harvesters. If a solution costs more than ₹500, mark it clearly as 'if you can borrow via KCC'.",
   middle:
     "Farmer INCOME TIER = MIDDLE (₹1–5 lakh/year). Recommend affordable inputs: urea/DAP fertilisers, knapsack sprayer, generic pesticides under ₹1500, warehouse rental, mini truck hire, KCC loans. Avoid premium precision-ag or imported branded goods.",
-  high:
-    "Farmer INCOME TIER = HIGH (> ₹5 lakh/year). Recommend precision agriculture: drip/sprinkler, cold storage, branded plant-protection chemicals, soil testing labs, mechanised harvesting, contract-farming buyers, direct FPO/mandi trucking. Include ROI figures.",
+  high: "Farmer INCOME TIER = HIGH (> ₹5 lakh/year). Recommend precision agriculture: drip/sprinkler, cold storage, branded plant-protection chemicals, soil testing labs, mechanised harvesting, contract-farming buyers, direct FPO/mandi trucking. Include ROI figures.",
 };
 
 export const generateDecision = createServerFn({ method: "POST" })
@@ -233,7 +234,11 @@ Return STRICT JSON:
       body: JSON.stringify({
         model: "google/gemini-3.6-flash",
         messages: [
-          { role: "system", content: "Careful agri analyst. Return only valid JSON. Never invent specific prices; give reasoned bands." },
+          {
+            role: "system",
+            content:
+              "Careful agri analyst. Return only valid JSON. Never invent specific prices; give reasoned bands.",
+          },
           { role: "user", content: prompt },
         ],
         response_format: { type: "json_object" },
