@@ -1,12 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { motion } from "framer-motion";
 import { AppShell } from "@/components/app-shell";
 import { DataUnavailable } from "@/components/data-unavailable";
 import { useProfile } from "@/lib/profile";
 import { fetchMandiPrices, type MandiRecord } from "@/lib/mandi.functions";
 import { t } from "@/lib/i18n";
 import { formatINR, formatIST } from "@/lib/format";
+import { GlassCard } from "@/components/ui/glass-card";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/animations";
 
 export const Route = createFileRoute("/mandi")({
   head: () => ({

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { Loader2, MapPin, RefreshCw, Search, Wind, Droplets, CloudRain } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { useProfile } from "@/lib/profile";
@@ -11,6 +12,8 @@ import {
   type WeatherData,
 } from "@/lib/weather";
 import { t } from "@/lib/i18n";
+import { GlassCard } from "@/components/ui/glass-card";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/animations";
 
 export const Route = createFileRoute("/weather")({
   head: () => ({

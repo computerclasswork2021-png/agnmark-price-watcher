@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Mic, Loader2, Send, Volume2 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { useProfile } from "@/lib/profile";
 import { askAssistant } from "@/lib/assistant.functions";
 import { t } from "@/lib/i18n";
+import { GlassCard } from "@/components/ui/glass-card";
+import { FadeInUp } from "@/components/ui/animations";
 
 export const Route = createFileRoute("/assistant")({
   head: () => ({

@@ -24,11 +24,8 @@ import { generateDecision, type Decision } from "@/lib/decision.functions";
 import { describeCode, geocodePlace, useWeather, weatherEmoji } from "@/lib/weather";
 import { cn } from "@/lib/utils";
 import { formatINR, formatKm } from "@/lib/format";
-import {
-  PageTransition,
-  AnimatedCounter,
-  HoverElevation,
-} from "@/components/premium/dashboard-enhancements";
+import { GlassCard, AnimatedBorder } from "@/components/ui/glass-card";
+import { FadeInUp, HoverScale } from "@/components/ui/animations";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -91,7 +88,7 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <PageTransition>
+      <FadeInUp>
         <div className="flex flex-col gap-6">
           {/* Hero */}
           <section className="flex flex-col gap-3">
@@ -113,24 +110,28 @@ function DashboardPage() {
                 </span>
               </div>
             </div>
-            <HoverElevation>
+            <HoverScale>
               <DecisionCard
                 decision={mutation.data}
                 loading={mutation.isPending}
                 error={mutation.error as Error | null}
                 lang={lang}
               />
-            </HoverElevation>
+            </HoverScale>
           </section>
 
           {/* Secondary */}
           <div className="grid grid-cols-2 gap-4">
-            <HoverElevation>
-              <RiskCard decision={mutation.data} lang={lang} />
-            </HoverElevation>
-            <HoverElevation>
-              <WeatherStrip lang={lang} />
-            </HoverElevation>
+            <FadeInUp delay={0.1}>
+              <HoverScale>
+                <RiskCard decision={mutation.data} lang={lang} />
+              </HoverScale>
+            </FadeInUp>
+            <FadeInUp delay={0.2}>
+              <HoverScale>
+                <WeatherStrip lang={lang} />
+              </HoverScale>
+            </FadeInUp>
           </div>
 
           {/* Analyze CTA */}
@@ -187,7 +188,7 @@ function DashboardPage() {
             <TasksList tasks={mutation.data?.dailyTasks ?? null} loading={mutation.isPending} />
           </section>
         </div>
-      </PageTransition>
+      </FadeInUp>
 
       {/* Voice pill */}
       <div className="fixed bottom-20 inset-x-0 flex justify-center px-4 pointer-events-none">
@@ -260,19 +261,19 @@ function DecisionCard({
 }) {
   if (error) {
     return (
-      <div className="bg-surface ring-1 ring-black/5 rounded-2xl p-5 shadow-sm">
+      <GlassCard className="p-5">
         <div className="text-sm font-bold text-bad">
           {lang === "hi" ? "निर्णय इंजन उपलब्ध नहीं" : "Decision engine unavailable"}
         </div>
         <p className="text-xs text-muted-foreground mt-1">
           {error.message.length > 200 ? error.message.slice(0, 200) + "…" : error.message}
         </p>
-      </div>
+      </GlassCard>
     );
   }
   if (loading || !decision) {
     return (
-      <div className="bg-surface ring-1 ring-black/5 rounded-2xl p-5 shadow-sm animate-pulse space-y-4">
+      <GlassCard className="p-5 space-y-4">
         <div className="h-4 w-24 bg-muted rounded" />
         <div className="h-8 w-3/4 bg-muted rounded" />
         <div className="h-4 w-full bg-muted rounded" />
@@ -284,7 +285,7 @@ function DecisionCard({
           <Loader2 className="size-3 animate-spin" />
           {lang === "hi" ? "AI सिफारिश बना रहा…" : "AI building your recommendation…"}
         </div>
-      </div>
+      </GlassCard>
     );
   }
   const riskDot: Record<Decision["riskLevel"], string> = {

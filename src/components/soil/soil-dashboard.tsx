@@ -38,7 +38,7 @@ import type { SoilAnalysis } from "@/lib/soil";
 import { evaluateSoil, IDEAL, TEXTURE_META } from "@/lib/soil/scoring";
 import type { SoilRecord } from "@/lib/soil/types";
 import { cn } from "@/lib/utils";
-import { HoverElevation } from "@/components/premium/dashboard-enhancements";
+import { HoverScale, FadeInUp, StaggerContainer, StaggerItem } from "@/components/ui/animations";
 
 const COLOR_LABEL: Record<string, string> = {
   very_dark: "Very dark (high organic matter)",

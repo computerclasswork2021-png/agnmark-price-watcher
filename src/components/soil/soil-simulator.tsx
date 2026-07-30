@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { GlassCard, Pill, ScoreGauge, SectionTitle, Explain } from "./primitives";
 import { INTERVENTIONS, simulate } from "@/lib/soil/simulate";
@@ -37,22 +38,32 @@ export function SoilSimulator({ record }: { record: SoilRecord }) {
           }
         />
         <div className="grid grid-cols-2 gap-3 items-center">
-          <div className="grid place-items-center gap-1">
+          <motion.div
+            className="grid place-items-center gap-1"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
             <ScoreGauge
               score={before.score}
               category={before.category}
               size={124}
               label="Current"
             />
-          </div>
-          <div className="grid place-items-center gap-1">
+          </motion.div>
+          <motion.div
+            className="grid place-items-center gap-1"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
             <ScoreGauge
               score={after.score}
               category={after.category}
               size={124}
               label="Simulated"
             />
-          </div>
+          </motion.div>
         </div>
         <div className="grid gap-2">
           <Compare
