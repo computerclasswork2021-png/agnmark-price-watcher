@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhatIfRouteImport } from './routes/what-if'
 import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as SoilRouteImport } from './routes/soil'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SchemesRouteImport } from './routes/schemes'
 import { Route as ScanRouteImport } from './routes/scan'
@@ -35,6 +36,11 @@ const WeatherRoute = WeatherRouteImport.update({
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoilRoute = SoilRouteImport.update({
+  id: '/soil',
+  path: '/soil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/scan': typeof ScanRoute
   '/schemes': typeof SchemesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soil': typeof SoilRoute
   '/tasks': typeof TasksRoute
   '/weather': typeof WeatherRoute
   '/what-if': typeof WhatIfRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/scan': typeof ScanRoute
   '/schemes': typeof SchemesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soil': typeof SoilRoute
   '/tasks': typeof TasksRoute
   '/weather': typeof WeatherRoute
   '/what-if': typeof WhatIfRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/scan': typeof ScanRoute
   '/schemes': typeof SchemesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soil': typeof SoilRoute
   '/tasks': typeof TasksRoute
   '/weather': typeof WeatherRoute
   '/what-if': typeof WhatIfRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/scan'
     | '/schemes'
     | '/sitemap.xml'
+    | '/soil'
     | '/tasks'
     | '/weather'
     | '/what-if'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/scan'
     | '/schemes'
     | '/sitemap.xml'
+    | '/soil'
     | '/tasks'
     | '/weather'
     | '/what-if'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/scan'
     | '/schemes'
     | '/sitemap.xml'
+    | '/soil'
     | '/tasks'
     | '/weather'
     | '/what-if'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   ScanRoute: typeof ScanRoute
   SchemesRoute: typeof SchemesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SoilRoute: typeof SoilRoute
   TasksRoute: typeof TasksRoute
   WeatherRoute: typeof WeatherRoute
   WhatIfRoute: typeof WhatIfRoute
@@ -207,6 +220,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/tasks'
       preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soil': {
+      id: '/soil'
+      path: '/soil'
+      fullPath: '/soil'
+      preLoaderRoute: typeof SoilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   ScanRoute: ScanRoute,
   SchemesRoute: SchemesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SoilRoute: SoilRoute,
   TasksRoute: TasksRoute,
   WeatherRoute: WeatherRoute,
   WhatIfRoute: WhatIfRoute,

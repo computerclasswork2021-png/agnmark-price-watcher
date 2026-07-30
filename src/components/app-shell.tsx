@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Home, LineChart, Leaf, ClipboardList, Mic } from "lucide-react";
+import { Home, LineChart, Leaf, ClipboardList, Mic, Sprout } from "lucide-react";
 import { useProfile, type Language, initials } from "@/lib/profile";
 import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -70,9 +70,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         className="fixed bottom-0 inset-x-0 z-40 bg-surface/90 backdrop-blur-xl border-t border-border"
         aria-label="Primary"
       >
-        <div className="max-w-xl mx-auto grid grid-cols-5">
+        <div className="max-w-xl mx-auto grid grid-cols-6">
           <NavItem to="/" active={pathname === "/"} icon={Home} label={t("home", lang)} />
           <NavItem to="/mandi" active={pathname.startsWith("/mandi")} icon={LineChart} label={t("mandi", lang)} />
+          <NavItem to="/soil" active={pathname.startsWith("/soil")} icon={Sprout} label="Soil" />
           <NavItem to="/scan" active={pathname.startsWith("/scan")} icon={Leaf} label={t("disease_scan", lang)} />
           <NavItem to="/tasks" active={pathname.startsWith("/tasks")} icon={ClipboardList} label={t("tasks", lang)} />
           <NavItem to="/assistant" active={pathname.startsWith("/assistant")} icon={Mic} label={t("ask_assistant", lang)} />
