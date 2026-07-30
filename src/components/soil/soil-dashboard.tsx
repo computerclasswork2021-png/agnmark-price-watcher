@@ -15,7 +15,7 @@ import {
 import { AlertTriangle, Droplets, Leaf, Sprout, TrendingDown, TrendingUp, FlaskConical, Info } from "lucide-react";
 import { FactorRow, GlassCard, NutrientBar, Pill, ScoreGauge, SectionTitle, StatTile, Explain, toneForScore } from "./primitives";
 import type { SoilAnalysis } from "@/lib/soil";
-import { IDEAL, TEXTURE_META } from "@/lib/soil/scoring";
+import { evaluateSoil, IDEAL, TEXTURE_META } from "@/lib/soil/scoring";
 import type { SoilRecord } from "@/lib/soil/types";
 import { cn } from "@/lib/utils";
 
@@ -389,8 +389,6 @@ function FertGroup({ title, items }: { title: string; items: SoilAnalysis["ferti
 
 /** Lightweight score recompute used for trends and deltas. */
 function analysisScore(r: SoilRecord) {
-  // Imported lazily to avoid a cycle with the dashboard's heavier analysis path.
-  const { evaluateSoil } = require("@/lib/soil/scoring") as typeof import("@/lib/soil/scoring");
   return evaluateSoil(r.measurements, r.source);
 }
 
