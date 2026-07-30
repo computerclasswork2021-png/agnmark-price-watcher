@@ -11,7 +11,13 @@ export type SoilTexture =
   | "clay_loam"
   | "clay";
 
-export type SoilColor = "very_dark" | "dark_brown" | "brown" | "reddish" | "yellowish" | "pale_grey";
+export type SoilColor =
+  | "very_dark"
+  | "dark_brown"
+  | "brown"
+  | "reddish"
+  | "yellowish"
+  | "pale_grey";
 
 export type SoilTypeName =
   | "alluvial"

@@ -15,7 +15,10 @@ export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
       { title: "Set up your farm — PREDI-FARM X" },
-      { name: "description", content: "Add farm, income, crop, storage and transport for personalised recommendations." },
+      {
+        name: "description",
+        content: "Add farm, income, crop, storage and transport for personalised recommendations.",
+      },
       { property: "og:title", content: "Set up your farm — PREDI-FARM X" },
       { property: "og:description", content: "Onboard your farm in under a minute." },
     ],
@@ -24,16 +27,71 @@ export const Route = createFileRoute("/onboarding")({
 });
 
 const INDIAN_STATES = [
-  "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana",
-  "Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur",
-  "Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana",
-  "Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Puducherry",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Puducherry",
 ];
 
 const CROPS = [
-  "Wheat","Rice","Maize","Bajra","Jowar","Cotton","Sugarcane","Mustard","Groundnut","Soybean",
-  "Sunflower","Potato","Onion","Tomato","Brinjal","Chilli","Gram","Moong","Urad","Arhar (Tur)",
-  "Mango","Banana","Apple","Guava","Pomegranate","Turmeric","Ginger","Cardamom","Tea","Coffee",
+  "Wheat",
+  "Rice",
+  "Maize",
+  "Bajra",
+  "Jowar",
+  "Cotton",
+  "Sugarcane",
+  "Mustard",
+  "Groundnut",
+  "Soybean",
+  "Sunflower",
+  "Potato",
+  "Onion",
+  "Tomato",
+  "Brinjal",
+  "Chilli",
+  "Gram",
+  "Moong",
+  "Urad",
+  "Arhar (Tur)",
+  "Mango",
+  "Banana",
+  "Apple",
+  "Guava",
+  "Pomegranate",
+  "Turmeric",
+  "Ginger",
+  "Cardamom",
+  "Tea",
+  "Coffee",
 ];
 
 function OnboardingPage() {
@@ -97,17 +155,31 @@ function OnboardingPage() {
 
         <Section title={t("onboard_step1", lang)}>
           <Field label={t("full_name", lang)}>
-            <input required value={form.farmerName} onChange={(e) => set("farmerName", e.target.value)} className={input} placeholder="e.g. Mihika Bisht" />
+            <input
+              required
+              value={form.farmerName}
+              onChange={(e) => set("farmerName", e.target.value)}
+              className={input}
+              placeholder="e.g. Mihika Bisht"
+            />
           </Field>
           <Row>
             <Field label={t("language", lang)}>
-              <select value={form.language} onChange={(e) => set("language", e.target.value as "en" | "hi")} className={input}>
+              <select
+                value={form.language}
+                onChange={(e) => set("language", e.target.value as "en" | "hi")}
+                className={input}
+              >
                 <option value="en">English</option>
                 <option value="hi">हिंदी (Hindi)</option>
               </select>
             </Field>
             <Field label={t("income_tier", lang)}>
-              <select value={form.incomeTier} onChange={(e) => set("incomeTier", e.target.value as IncomeTier)} className={input}>
+              <select
+                value={form.incomeTier}
+                onChange={(e) => set("incomeTier", e.target.value as IncomeTier)}
+                className={input}
+              >
                 <option value="low">{t("low_income", lang)}</option>
                 <option value="middle">{t("middle_income", lang)}</option>
                 <option value="high">{t("high_income", lang)}</option>
@@ -116,38 +188,84 @@ function OnboardingPage() {
           </Row>
           <Row>
             <Field label={t("village", lang)}>
-              <input value={form.village} onChange={(e) => set("village", e.target.value)} className={input} />
+              <input
+                value={form.village}
+                onChange={(e) => set("village", e.target.value)}
+                className={input}
+              />
             </Field>
             <Field label={t("district", lang)}>
-              <input value={form.district} onChange={(e) => set("district", e.target.value)} className={input} />
+              <input
+                value={form.district}
+                onChange={(e) => set("district", e.target.value)}
+                className={input}
+              />
             </Field>
           </Row>
           <Field label={t("state", lang)}>
-            <select required value={form.state} onChange={(e) => set("state", e.target.value)} className={input}>
+            <select
+              required
+              value={form.state}
+              onChange={(e) => set("state", e.target.value)}
+              className={input}
+            >
               <option value="">{lang === "hi" ? "चुनें…" : "Select…"}</option>
-              {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+              {INDIAN_STATES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
             </select>
           </Field>
-          <button type="button" onClick={requestLocation} className="text-xs font-semibold text-brand self-start">
-            {form.lat ? `📍 ${t("gps_saved", lang)} (${form.lat.toFixed(2)}, ${form.lon?.toFixed(2)})` : `📍 ${t("use_gps", lang)}`}
+          <button
+            type="button"
+            onClick={requestLocation}
+            className="text-xs font-semibold text-brand self-start"
+          >
+            {form.lat
+              ? `📍 ${t("gps_saved", lang)} (${form.lat.toFixed(2)}, ${form.lon?.toFixed(2)})`
+              : `📍 ${t("use_gps", lang)}`}
           </button>
         </Section>
 
         <Section title={t("onboard_step2", lang)}>
           <Row>
             <Field label={t("farm_size", lang)}>
-              <input required type="number" min={0.1} step={0.1} value={form.farmSizeAcres} onChange={(e) => set("farmSizeAcres", Number(e.target.value))} className={input} />
+              <input
+                required
+                type="number"
+                min={0.1}
+                step={0.1}
+                value={form.farmSizeAcres}
+                onChange={(e) => set("farmSizeAcres", Number(e.target.value))}
+                className={input}
+              />
             </Field>
             <Field label={t("primary_crop", lang)}>
-              <select required value={form.crop} onChange={(e) => set("crop", e.target.value)} className={input}>
-                {CROPS.map((c) => <option key={c} value={c}>{c}</option>)}
+              <select
+                required
+                value={form.crop}
+                onChange={(e) => set("crop", e.target.value)}
+                className={input}
+              >
+                {CROPS.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </Field>
           </Row>
           <Field label={t("irrigation", lang)}>
-            <select value={form.irrigation} onChange={(e) => set("irrigation", e.target.value as IrrigationType)} className={input}>
-              {(["rainfed","canal","borewell","drip","sprinkler"] as const).map((k) => (
-                <option key={k} value={k}>{labelIrrigation(k, lang)}</option>
+            <select
+              value={form.irrigation}
+              onChange={(e) => set("irrigation", e.target.value as IrrigationType)}
+              className={input}
+            >
+              {(["rainfed", "canal", "borewell", "drip", "sprinkler"] as const).map((k) => (
+                <option key={k} value={k}>
+                  {labelIrrigation(k, lang)}
+                </option>
               ))}
             </select>
           </Field>
@@ -156,37 +274,88 @@ function OnboardingPage() {
         <Section title={t("onboard_step3", lang)}>
           <Row>
             <Field label={t("storage_type", lang)}>
-              <select value={form.storageType} onChange={(e) => set("storageType", e.target.value as StorageType)} className={input}>
-                {(["none","own_shed","cold_storage","warehouse","cooperative"] as const).map((k) => (
-                  <option key={k} value={k}>{labelStorage(k, lang)}</option>
-                ))}
+              <select
+                value={form.storageType}
+                onChange={(e) => set("storageType", e.target.value as StorageType)}
+                className={input}
+              >
+                {(["none", "own_shed", "cold_storage", "warehouse", "cooperative"] as const).map(
+                  (k) => (
+                    <option key={k} value={k}>
+                      {labelStorage(k, lang)}
+                    </option>
+                  ),
+                )}
               </select>
             </Field>
             <Field label={t("storage_capacity_qtl", lang)}>
-              <input type="number" min={0} value={form.storageCapacityQuintals} onChange={(e) => set("storageCapacityQuintals", Number(e.target.value))} className={input} />
+              <input
+                type="number"
+                min={0}
+                value={form.storageCapacityQuintals}
+                onChange={(e) => set("storageCapacityQuintals", Number(e.target.value))}
+                className={input}
+              />
             </Field>
           </Row>
           <Field label={t("storage_max_days", lang)}>
-            <input type="number" min={0} value={form.storageDurationDays} onChange={(e) => set("storageDurationDays", Number(e.target.value))} className={input} />
+            <input
+              type="number"
+              min={0}
+              value={form.storageDurationDays}
+              onChange={(e) => set("storageDurationDays", Number(e.target.value))}
+              className={input}
+            />
           </Field>
           <Row>
             <Field label={t("transport_type", lang)}>
-              <select value={form.transportType} onChange={(e) => set("transportType", e.target.value as TransportType)} className={input}>
-                {(["none","bicycle","motorcycle","tractor","pickup","mini_truck","truck"] as const).map((k) => (
-                  <option key={k} value={k}>{labelTransport(k, lang)}</option>
+              <select
+                value={form.transportType}
+                onChange={(e) => set("transportType", e.target.value as TransportType)}
+                className={input}
+              >
+                {(
+                  [
+                    "none",
+                    "bicycle",
+                    "motorcycle",
+                    "tractor",
+                    "pickup",
+                    "mini_truck",
+                    "truck",
+                  ] as const
+                ).map((k) => (
+                  <option key={k} value={k}>
+                    {labelTransport(k, lang)}
+                  </option>
                 ))}
               </select>
             </Field>
             <Field label={t("transport_cost", lang)}>
-              <input type="number" min={0} value={form.transportCostPerKm} onChange={(e) => set("transportCostPerKm", Number(e.target.value))} className={input} />
+              <input
+                type="number"
+                min={0}
+                value={form.transportCostPerKm}
+                onChange={(e) => set("transportCostPerKm", Number(e.target.value))}
+                className={input}
+              />
             </Field>
           </Row>
           <Field label={t("transport_max_km", lang)}>
-            <input type="number" min={0} value={form.maxTransportKm} onChange={(e) => set("maxTransportKm", Number(e.target.value))} className={input} />
+            <input
+              type="number"
+              min={0}
+              value={form.maxTransportKm}
+              onChange={(e) => set("maxTransportKm", Number(e.target.value))}
+              className={input}
+            />
           </Field>
         </Section>
 
-        <button type="submit" className="bg-brand text-brand-foreground rounded-xl py-3 font-semibold shadow-sm">
+        <button
+          type="submit"
+          className="bg-brand text-brand-foreground rounded-xl py-3 font-semibold shadow-sm"
+        >
           {t("save_and_see", lang)}
         </button>
       </form>
@@ -211,7 +380,9 @@ function Row({ children }: { children: React.ReactNode }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-1">
-      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{label}</span>
+      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+        {label}
+      </span>
       {children}
     </label>
   );

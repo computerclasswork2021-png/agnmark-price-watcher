@@ -3,7 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 import { FileUp, Camera, PencilLine, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
 import { GlassCard, Pill, SectionTitle, Explain } from "./primitives";
 import { DEFAULT_MEASUREMENTS, FIELD_META, newId } from "@/lib/soil/store";
-import type { SoilMeasurements, SoilRecord, Season, SoilTexture, SoilColor, SoilTypeName, DataSource } from "@/lib/soil/types";
+import type {
+  SoilMeasurements,
+  SoilRecord,
+  Season,
+  SoilTexture,
+  SoilColor,
+  SoilTypeName,
+  DataSource,
+} from "@/lib/soil/types";
 import { analyzeSoilPhoto, extractSoilReport } from "@/lib/soil.functions";
 import { TEXTURE_META } from "@/lib/soil/scoring";
 import { cn } from "@/lib/utils";
@@ -13,15 +21,38 @@ const NUMERIC_KEYS = Object.keys(FIELD_META) as NumericKey[];
 const MAX_BYTES = 8 * 1024 * 1024;
 
 const TEXTURES = Object.keys(TEXTURE_META) as SoilTexture[];
-const COLORS: SoilColor[] = ["very_dark", "dark_brown", "brown", "reddish", "yellowish", "pale_grey"];
-const TYPES: SoilTypeName[] = ["alluvial", "black", "red", "laterite", "desert", "mountain", "saline", "peaty"];
+const COLORS: SoilColor[] = [
+  "very_dark",
+  "dark_brown",
+  "brown",
+  "reddish",
+  "yellowish",
+  "pale_grey",
+];
+const TYPES: SoilTypeName[] = [
+  "alluvial",
+  "black",
+  "red",
+  "laterite",
+  "desert",
+  "mountain",
+  "saline",
+  "peaty",
+];
 const SEASONS: Season[] = ["kharif", "rabi", "zaid", "perennial"];
 
 export function SoilEntry({
   defaults,
   onSaved,
 }: {
-  defaults: { farmName: string; village: string; district: string; state: string; fieldSizeAcres: number; crop: string };
+  defaults: {
+    farmName: string;
+    village: string;
+    district: string;
+    state: string;
+    fieldSizeAcres: number;
+    crop: string;
+  };
   onSaved: (r: SoilRecord) => void;
 }) {
   const [method, setMethod] = useState<"manual" | "upload" | "photo">("manual");
@@ -48,7 +79,9 @@ export function SoilEntry({
   const upload = useMutation({
     mutationFn: async (file: File) => {
       const dataUrl = await toDataUrl(file);
-      return extractSoilReport({ data: { fileName: file.name, mimeType: file.type || "application/pdf", dataUrl } });
+      return extractSoilReport({
+        data: { fileName: file.name, mimeType: file.type || "application/pdf", dataUrl },
+      });
     },
     onSuccess: (res, file) => {
       if (!res.readable) return;
@@ -68,14 +101,21 @@ export function SoilEntry({
       setM(next);
       setHighlighted(hits);
       setSource("lab_report");
-      setExtraction({ fileName: file.name, confidence: res.confidence, unreadableFields: res.unreadableFields, notes: res.notes });
-      if (res.sampleDate && /^\d{4}-\d{2}-\d{2}$/.test(res.sampleDate)) setCtx((c) => ({ ...c, testedOn: res.sampleDate }));
+      setExtraction({
+        fileName: file.name,
+        confidence: res.confidence,
+        unreadableFields: res.unreadableFields,
+        notes: res.notes,
+      });
+      if (res.sampleDate && /^\d{4}-\d{2}-\d{2}$/.test(res.sampleDate))
+        setCtx((c) => ({ ...c, testedOn: res.sampleDate }));
       setMethod("manual");
     },
   });
 
   const photoScan = useMutation({
-    mutationFn: async (file: File) => analyzeSoilPhoto({ data: { imageDataUrl: await toDataUrl(file) } }),
+    mutationFn: async (file: File) =>
+      analyzeSoilPhoto({ data: { imageDataUrl: await toDataUrl(file) } }),
     onSuccess: (res) => {
       if (!res.isSoilPhoto) return;
       const next = { ...m, texture: res.textureEstimate, color: res.colorClassification };
@@ -116,7 +156,8 @@ export function SoilEntry({
     setErrors((e) => {
       const next = { ...e };
       if (raw === "" || Number.isNaN(v)) next[key] = "Enter a number.";
-      else if (v < meta.min || v > meta.max) next[key] = `Must be between ${meta.min} and ${meta.max} ${meta.unit}.`;
+      else if (v < meta.min || v > meta.max)
+        next[key] = `Must be between ${meta.min} and ${meta.max} ${meta.unit}.`;
       else delete next[key];
       return next;
     });
@@ -133,7 +174,8 @@ export function SoilEntry({
     for (const key of NUMERIC_KEYS) {
       const meta = FIELD_META[key];
       const v = m[key];
-      if (!Number.isFinite(v) || v < meta.min || v > meta.max) errs[key] = `Must be between ${meta.min} and ${meta.max} ${meta.unit}.`;
+      if (!Number.isFinite(v) || v < meta.min || v > meta.max)
+        errs[key] = `Must be between ${meta.min} and ${meta.max} ${meta.unit}.`;
     }
     if (!ctx.fieldName.trim()) errs.fieldName = "Field name is required.";
     if (!(ctx.fieldSizeAcres > 0)) errs.fieldSizeAcres = "Field size must be greater than zero.";
@@ -154,14 +196,32 @@ export function SoilEntry({
   return (
     <div className="grid gap-4">
       <div className="grid grid-cols-3 gap-2">
-        <MethodTab icon={PencilLine} label="Manual" active={method === "manual"} onClick={() => setMethod("manual")} />
-        <MethodTab icon={FileUp} label="Upload report" active={method === "upload"} onClick={() => setMethod("upload")} />
-        <MethodTab icon={Camera} label="Soil photo" active={method === "photo"} onClick={() => setMethod("photo")} />
+        <MethodTab
+          icon={PencilLine}
+          label="Manual"
+          active={method === "manual"}
+          onClick={() => setMethod("manual")}
+        />
+        <MethodTab
+          icon={FileUp}
+          label="Upload report"
+          active={method === "upload"}
+          onClick={() => setMethod("upload")}
+        />
+        <MethodTab
+          icon={Camera}
+          label="Soil photo"
+          active={method === "photo"}
+          onClick={() => setMethod("photo")}
+        />
       </div>
 
       {method === "upload" && (
         <GlassCard className="p-4 grid gap-3">
-          <SectionTitle title="Upload soil health report" sub="PDF, JPG, JPEG or PNG up to 8 MB. Values are read by OCR and shown for your verification before saving." />
+          <SectionTitle
+            title="Upload soil health report"
+            sub="PDF, JPG, JPEG or PNG up to 8 MB. Values are read by OCR and shown for your verification before saving."
+          />
           <input
             ref={fileRef}
             type="file"
@@ -180,17 +240,29 @@ export function SoilEntry({
             disabled={upload.isPending}
             className="rounded-xl border-2 border-dashed border-border py-10 grid place-items-center gap-2 text-sm text-muted-foreground hover:border-brand/40 transition"
           >
-            {upload.isPending ? <Loader2 className="size-5 animate-spin text-brand" /> : <FileUp className="size-5" />}
+            {upload.isPending ? (
+              <Loader2 className="size-5 animate-spin text-brand" />
+            ) : (
+              <FileUp className="size-5" />
+            )}
             {upload.isPending ? "Reading your report…" : "Choose a report file"}
           </button>
           {upload.isError && <Notice tone="bad" text={(upload.error as Error).message} />}
-          {upload.data && !upload.data.readable && <Notice tone="bad" text={`Could not read this report: ${upload.data.reason} Enter the values manually instead.`} />}
+          {upload.data && !upload.data.readable && (
+            <Notice
+              tone="bad"
+              text={`Could not read this report: ${upload.data.reason} Enter the values manually instead.`}
+            />
+          )}
         </GlassCard>
       )}
 
       {method === "photo" && (
         <GlassCard className="p-4 grid gap-3">
-          <SectionTitle title="Soil photo analysis" sub="Experimental. Estimates surface characteristics only." />
+          <SectionTitle
+            title="Soil photo analysis"
+            sub="Experimental. Estimates surface characteristics only."
+          />
           <Notice
             tone="warn"
             text="A photograph cannot measure pH, N, P, K or salinity. This produces a visual estimate to get you started — it never replaces a laboratory soil test."
@@ -212,11 +284,20 @@ export function SoilEntry({
             disabled={photoScan.isPending}
             className="rounded-xl border-2 border-dashed border-border py-10 grid place-items-center gap-2 text-sm text-muted-foreground hover:border-brand/40 transition"
           >
-            {photoScan.isPending ? <Loader2 className="size-5 animate-spin text-brand" /> : <Camera className="size-5" />}
+            {photoScan.isPending ? (
+              <Loader2 className="size-5 animate-spin text-brand" />
+            ) : (
+              <Camera className="size-5" />
+            )}
             {photoScan.isPending ? "Reading the soil surface…" : "Take or choose a soil photo"}
           </button>
           {photoScan.isError && <Notice tone="bad" text={(photoScan.error as Error).message} />}
-          {photoScan.data && !photoScan.data.isSoilPhoto && <Notice tone="bad" text="That image does not look like bare soil. Photograph the soil surface in daylight, filling the frame." />}
+          {photoScan.data && !photoScan.data.isSoilPhoto && (
+            <Notice
+              tone="bad"
+              text="That image does not look like bare soil. Photograph the soil surface in daylight, filling the frame."
+            />
+          )}
         </GlassCard>
       )}
 
@@ -236,7 +317,10 @@ export function SoilEntry({
                   </Pill>
                 ))}
               </div>
-              <p className="text-xs text-muted-foreground">Highlighted fields were filled automatically. Check each one against your report and correct it before saving.</p>
+              <p className="text-xs text-muted-foreground">
+                Highlighted fields were filled automatically. Check each one against your report and
+                correct it before saving.
+              </p>
             </GlassCard>
           )}
           {photo && (
@@ -259,26 +343,69 @@ export function SoilEntry({
           <GlassCard className="p-4 grid gap-3">
             <SectionTitle title="Field details" />
             <div className="grid grid-cols-2 gap-3">
-              <Text label="Farm name" value={ctx.farmName} onChange={(v) => setCtx({ ...ctx, farmName: v })} />
-              <Text label="Field name" value={ctx.fieldName} onChange={(v) => setCtx({ ...ctx, fieldName: v })} error={errors.fieldName} />
-              <Text label="Field size (acre)" value={String(ctx.fieldSizeAcres)} type="number" onChange={(v) => setCtx({ ...ctx, fieldSizeAcres: Number(v) })} error={errors.fieldSizeAcres} />
-              <Text label="Date of test" value={ctx.testedOn} type="date" onChange={(v) => setCtx({ ...ctx, testedOn: v })} />
-              <Text label="Village" value={ctx.village} onChange={(v) => setCtx({ ...ctx, village: v })} />
-              <Text label="District" value={ctx.district} onChange={(v) => setCtx({ ...ctx, district: v })} />
-              <Text label="State" value={ctx.state} onChange={(v) => setCtx({ ...ctx, state: v })} />
-              <Select label="Season" value={ctx.season} options={SEASONS} onChange={(v) => setCtx({ ...ctx, season: v as Season })} />
+              <Text
+                label="Farm name"
+                value={ctx.farmName}
+                onChange={(v) => setCtx({ ...ctx, farmName: v })}
+              />
+              <Text
+                label="Field name"
+                value={ctx.fieldName}
+                onChange={(v) => setCtx({ ...ctx, fieldName: v })}
+                error={errors.fieldName}
+              />
+              <Text
+                label="Field size (acre)"
+                value={String(ctx.fieldSizeAcres)}
+                type="number"
+                onChange={(v) => setCtx({ ...ctx, fieldSizeAcres: Number(v) })}
+                error={errors.fieldSizeAcres}
+              />
+              <Text
+                label="Date of test"
+                value={ctx.testedOn}
+                type="date"
+                onChange={(v) => setCtx({ ...ctx, testedOn: v })}
+              />
+              <Text
+                label="Village"
+                value={ctx.village}
+                onChange={(v) => setCtx({ ...ctx, village: v })}
+              />
+              <Text
+                label="District"
+                value={ctx.district}
+                onChange={(v) => setCtx({ ...ctx, district: v })}
+              />
+              <Text
+                label="State"
+                value={ctx.state}
+                onChange={(v) => setCtx({ ...ctx, state: v })}
+              />
+              <Select
+                label="Season"
+                value={ctx.season}
+                options={SEASONS}
+                onChange={(v) => setCtx({ ...ctx, season: v as Season })}
+              />
             </div>
           </GlassCard>
 
           <GlassCard className="p-4 grid gap-3">
-            <SectionTitle title="Soil measurements" sub="Hover or tap a label for guidance. Defaults show the typical Indian range." />
+            <SectionTitle
+              title="Soil measurements"
+              sub="Hover or tap a label for guidance. Defaults show the typical Indian range."
+            />
             <div className="grid grid-cols-2 gap-3">
               {NUMERIC_KEYS.map((key) => {
                 const meta = FIELD_META[key];
                 return (
                   <label key={key} className="grid gap-1" title={meta.help}>
                     <span className="text-[11px] font-semibold text-foreground/80">
-                      {meta.label} {meta.unit && <span className="text-muted-foreground font-normal">({meta.unit})</span>}
+                      {meta.label}{" "}
+                      {meta.unit && (
+                        <span className="text-muted-foreground font-normal">({meta.unit})</span>
+                      )}
                     </span>
                     <input
                       type="number"
@@ -288,18 +415,44 @@ export function SoilEntry({
                       onChange={(e) => setNum(key, e.target.value)}
                       className={cn(
                         "rounded-lg border bg-background px-2.5 py-2 text-sm font-mono tabular-nums outline-none transition focus:ring-2 focus:ring-brand/30",
-                        errors[key] ? "border-bad" : highlighted.has(key) ? "border-good bg-good/5" : "border-border",
+                        errors[key]
+                          ? "border-bad"
+                          : highlighted.has(key)
+                            ? "border-good bg-good/5"
+                            : "border-border",
                       )}
                     />
-                    <span className={cn("text-[10px]", errors[key] ? "text-bad" : "text-muted-foreground")}>
+                    <span
+                      className={cn(
+                        "text-[10px]",
+                        errors[key] ? "text-bad" : "text-muted-foreground",
+                      )}
+                    >
                       {errors[key] ?? `Typical ${meta.typical}`}
                     </span>
                   </label>
                 );
               })}
-              <Select label="Texture" value={m.texture} options={TEXTURES} onChange={(v) => setM({ ...m, texture: v as SoilTexture })} highlight={highlighted.has("texture")} />
-              <Select label="Colour" value={m.color} options={COLORS} onChange={(v) => setM({ ...m, color: v as SoilColor })} highlight={highlighted.has("color")} />
-              <Select label="Soil type" value={m.soilType} options={TYPES} onChange={(v) => setM({ ...m, soilType: v as SoilTypeName })} />
+              <Select
+                label="Texture"
+                value={m.texture}
+                options={TEXTURES}
+                onChange={(v) => setM({ ...m, texture: v as SoilTexture })}
+                highlight={highlighted.has("texture")}
+              />
+              <Select
+                label="Colour"
+                value={m.color}
+                options={COLORS}
+                onChange={(v) => setM({ ...m, color: v as SoilColor })}
+                highlight={highlighted.has("color")}
+              />
+              <Select
+                label="Soil type"
+                value={m.soilType}
+                options={TYPES}
+                onChange={(v) => setM({ ...m, soilType: v as SoilTypeName })}
+              />
             </div>
             <Explain
               label="Note"
@@ -311,7 +464,10 @@ export function SoilEntry({
                     : "Saved as manual entry. The engine trusts these numbers as given and cannot verify them."
               }
             />
-            <button onClick={save} className="rounded-xl bg-brand text-brand-foreground py-3 text-sm font-semibold active:scale-[0.99] transition">
+            <button
+              onClick={save}
+              className="rounded-xl bg-brand text-brand-foreground py-3 text-sm font-semibold active:scale-[0.99] transition"
+            >
               Save analysis
             </button>
           </GlassCard>
@@ -321,13 +477,25 @@ export function SoilEntry({
   );
 }
 
-function MethodTab({ icon: Icon, label, active, onClick }: { icon: typeof Camera; label: string; active: boolean; onClick: () => void }) {
+function MethodTab({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+}: {
+  icon: typeof Camera;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
   return (
     <button
       onClick={onClick}
       className={cn(
         "rounded-xl border py-2.5 px-2 grid place-items-center gap-1 text-[11px] font-semibold transition",
-        active ? "border-brand bg-brand/10 text-brand" : "border-border bg-surface/60 text-muted-foreground",
+        active
+          ? "border-brand bg-brand/10 text-brand"
+          : "border-border bg-surface/60 text-muted-foreground",
       )}
     >
       <Icon className="size-4" />
@@ -336,7 +504,19 @@ function MethodTab({ icon: Icon, label, active, onClick }: { icon: typeof Camera
   );
 }
 
-function Text({ label, value, onChange, type = "text", error }: { label: string; value: string; onChange: (v: string) => void; type?: string; error?: string }) {
+function Text({
+  label,
+  value,
+  onChange,
+  type = "text",
+  error,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  error?: string;
+}) {
   return (
     <label className="grid gap-1">
       <span className="text-[11px] font-semibold text-foreground/80">{label}</span>
@@ -344,21 +524,39 @@ function Text({ label, value, onChange, type = "text", error }: { label: string;
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={cn("rounded-lg border bg-background px-2.5 py-2 text-sm outline-none focus:ring-2 focus:ring-brand/30", error ? "border-bad" : "border-border")}
+        className={cn(
+          "rounded-lg border bg-background px-2.5 py-2 text-sm outline-none focus:ring-2 focus:ring-brand/30",
+          error ? "border-bad" : "border-border",
+        )}
       />
       {error && <span className="text-[10px] text-bad">{error}</span>}
     </label>
   );
 }
 
-function Select({ label, value, options, onChange, highlight }: { label: string; value: string; options: string[]; onChange: (v: string) => void; highlight?: boolean }) {
+function Select({
+  label,
+  value,
+  options,
+  onChange,
+  highlight,
+}: {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (v: string) => void;
+  highlight?: boolean;
+}) {
   return (
     <label className="grid gap-1">
       <span className="text-[11px] font-semibold text-foreground/80">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={cn("rounded-lg border bg-background px-2.5 py-2 text-sm capitalize outline-none focus:ring-2 focus:ring-brand/30", highlight ? "border-good bg-good/5" : "border-border")}
+        className={cn(
+          "rounded-lg border bg-background px-2.5 py-2 text-sm capitalize outline-none focus:ring-2 focus:ring-brand/30",
+          highlight ? "border-good bg-good/5" : "border-border",
+        )}
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -372,8 +570,15 @@ function Select({ label, value, options, onChange, highlight }: { label: string;
 
 function Notice({ tone, text }: { tone: "warn" | "bad"; text: string }) {
   return (
-    <div className={cn("rounded-xl p-3 flex gap-2 text-xs", tone === "bad" ? "bg-bad/5 border border-bad/25" : "bg-warn/5 border border-warn/25")}>
-      <AlertTriangle className={cn("size-3.5 shrink-0 mt-0.5", tone === "bad" ? "text-bad" : "text-warn")} />
+    <div
+      className={cn(
+        "rounded-xl p-3 flex gap-2 text-xs",
+        tone === "bad" ? "bg-bad/5 border border-bad/25" : "bg-warn/5 border border-warn/25",
+      )}
+    >
+      <AlertTriangle
+        className={cn("size-3.5 shrink-0 mt-0.5", tone === "bad" ? "text-bad" : "text-warn")}
+      />
       <span>{text}</span>
     </div>
   );

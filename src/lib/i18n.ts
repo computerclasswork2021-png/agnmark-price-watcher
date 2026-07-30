@@ -70,9 +70,15 @@ export const T: Dict = {
   modal_price: { en: "Modal price", hi: "मॉडल भाव" },
   distance: { en: "Distance", hi: "दूरी" },
   km_one_way: { en: "km one-way", hi: "किमी एक तरफ" },
-  no_live_prices: { en: "No live prices right now — showing most recent available.", hi: "अभी लाइव भाव नहीं — नवीनतम उपलब्ध दिखा रहे हैं।" },
+  no_live_prices: {
+    en: "No live prices right now — showing most recent available.",
+    hi: "अभी लाइव भाव नहीं — नवीनतम उपलब्ध दिखा रहे हैं।",
+  },
   fallback_active: { en: "Fallback data", hi: "पिछला डेटा" },
-  action_hero_missing_profile: { en: "Set up your farm first to see today's best decision.", hi: "आज का सर्वोत्तम निर्णय देखने के लिए पहले अपना खेत सेट करें।" },
+  action_hero_missing_profile: {
+    en: "Set up your farm first to see today's best decision.",
+    hi: "आज का सर्वोत्तम निर्णय देखने के लिए पहले अपना खेत सेट करें।",
+  },
   onboard_step1: { en: "About you", hi: "आपके बारे में" },
   onboard_step2: { en: "Your farm", hi: "आपका खेत" },
   onboard_step3: { en: "Storage & transport", hi: "भंडारण और परिवहन" },
@@ -131,11 +137,17 @@ export const T: Dict = {
     hi: "उज्ज्वल प्रकाश में एक पत्ते की साफ तस्वीर अपलोड करें। धुंधली तस्वीरें अस्वीकार होंगी।",
   },
   upload_leaf: { en: "Take or upload a leaf photo", hi: "पत्ते की तस्वीर लें या अपलोड करें" },
-  best_single_leaf: { en: "Best: single leaf, bright natural light", hi: "सबसे अच्छा: एक पत्ता, प्राकृतिक उजाला" },
+  best_single_leaf: {
+    en: "Best: single leaf, bright natural light",
+    hi: "सबसे अच्छा: एक पत्ता, प्राकृतिक उजाला",
+  },
   different_photo: { en: "Choose a different photo", hi: "दूसरी तस्वीर चुनें" },
   analysing: { en: "Analysing image with AI…", hi: "AI से जांच हो रही…" },
   more_images: { en: "Please upload another image", hi: "कृपया दूसरी तस्वीर अपलोड करें" },
-  low_quality: { en: "Image quality too low for a confident diagnosis.", hi: "साफ निदान के लिए तस्वीर की गुणवत्ता कम है।" },
+  low_quality: {
+    en: "Image quality too low for a confident diagnosis.",
+    hi: "साफ निदान के लिए तस्वीर की गुणवत्ता कम है।",
+  },
   diagnosis: { en: "Diagnosis", hi: "निदान" },
   symptoms: { en: "Symptoms", hi: "लक्षण" },
   treatment: { en: "Treatment", hi: "उपचार" },
@@ -144,7 +156,10 @@ export const T: Dict = {
   tasks_personalised: { en: "Personalised for", hi: "अनुकूलित —" },
   in_area: { en: "in", hi: "क्षेत्र:" },
   reset_defaults: { en: "Reset AI tasks", hi: "AI कार्य रीसेट करें" },
-  chart_profit_by_day: { en: "Profit by harvest day (7-day)", hi: "फसल दिवस के अनुसार लाभ (7 दिन)" },
+  chart_profit_by_day: {
+    en: "Profit by harvest day (7-day)",
+    hi: "फसल दिवस के अनुसार लाभ (7 दिन)",
+  },
   best_sell_window: { en: "Best sell window", hi: "बिक्री का सबसे अच्छा समय" },
   disease_risk: { en: "Disease risk", hi: "रोग जोखिम" },
   yield_forecast: { en: "Yield forecast", hi: "उपज पूर्वानुमान" },
@@ -187,6 +202,12 @@ const IRRIGATION_LABELS: Record<string, { en: string; hi: string }> = {
   drip: { en: "Drip", hi: "ड्रिप" },
   sprinkler: { en: "Sprinkler", hi: "स्प्रिंकलर" },
 };
-export function labelStorage(k: string, lang: Language) { return STORAGE_LABELS[k]?.[lang] ?? k; }
-export function labelTransport(k: string, lang: Language) { return TRANSPORT_LABELS[k]?.[lang] ?? k; }
-export function labelIrrigation(k: string, lang: Language) { return IRRIGATION_LABELS[k]?.[lang] ?? k; }
+export function labelStorage(k: string, lang: Language) {
+  return STORAGE_LABELS[k]?.[lang] ?? k;
+}
+export function labelTransport(k: string, lang: Language) {
+  return TRANSPORT_LABELS[k]?.[lang] ?? k;
+}
+export function labelIrrigation(k: string, lang: Language) {
+  return IRRIGATION_LABELS[k]?.[lang] ?? k;
+}

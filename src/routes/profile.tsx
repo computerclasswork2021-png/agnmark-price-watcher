@@ -8,7 +8,10 @@ export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
       { title: "Profile — PREDI-FARM X" },
-      { name: "description", content: "Your farm profile — farmer, crop, income tier, storage, transport." },
+      {
+        name: "description",
+        content: "Your farm profile — farmer, crop, income tier, storage, transport.",
+      },
       { property: "og:title", content: "Profile — PREDI-FARM X" },
       { property: "og:description", content: "Manage your farm and preferences." },
     ],
@@ -17,7 +20,9 @@ export const Route = createFileRoute("/profile")({
 });
 
 const INCOME_KEY: Record<IncomeTier, "low_income" | "middle_income" | "high_income"> = {
-  low: "low_income", middle: "middle_income", high: "high_income",
+  low: "low_income",
+  middle: "middle_income",
+  high: "high_income",
 };
 
 function ProfilePage() {
@@ -30,7 +35,10 @@ function ProfilePage() {
       <AppShell>
         <div className="flex flex-col items-center gap-3 py-16 text-center">
           <p className="text-sm text-muted-foreground">{t("no_profile", lang)}</p>
-          <Link to="/onboarding" className="bg-brand text-brand-foreground rounded-lg py-2 px-4 text-sm font-semibold">
+          <Link
+            to="/onboarding"
+            className="bg-brand text-brand-foreground rounded-lg py-2 px-4 text-sm font-semibold"
+          >
             {t("begin", lang)}
           </Link>
         </div>
@@ -54,7 +62,9 @@ function ProfilePage() {
         </header>
 
         <Group title={t("farm_snapshot", lang)}>
-          <Row label={t("size", lang)}>{profile.farmSizeAcres} {lang === "hi" ? "एकड़" : "acres"}</Row>
+          <Row label={t("size", lang)}>
+            {profile.farmSizeAcres} {lang === "hi" ? "एकड़" : "acres"}
+          </Row>
           <Row label={t("crop", lang)}>{profile.crop}</Row>
           <Row label={t("irrigation", lang)}>{labelIrrigation(profile.irrigation, lang)}</Row>
           <Row label={t("income_tier", lang)}>
@@ -72,13 +82,19 @@ function ProfilePage() {
 
         <Group title={t("storage", lang)}>
           <Row label={t("storage_type", lang)}>{labelStorage(profile.storageType, lang)}</Row>
-          <Row label={t("storage_capacity_qtl", lang)}>{profile.storageCapacityQuintals} qtl · {profile.storageCapacityQuintals * 100} kg</Row>
-          <Row label={t("storage_max_days", lang)}>{profile.storageDurationDays} {lang === "hi" ? "दिन" : "days"}</Row>
+          <Row label={t("storage_capacity_qtl", lang)}>
+            {profile.storageCapacityQuintals} qtl · {profile.storageCapacityQuintals * 100} kg
+          </Row>
+          <Row label={t("storage_max_days", lang)}>
+            {profile.storageDurationDays} {lang === "hi" ? "दिन" : "days"}
+          </Row>
         </Group>
 
         <Group title={t("transport", lang)}>
           <Row label={t("transport_type", lang)}>{labelTransport(profile.transportType, lang)}</Row>
-          <Row label={t("transport_cost", lang)}>{formatINR(profile.transportCostPerKm, lang)}/km</Row>
+          <Row label={t("transport_cost", lang)}>
+            {formatINR(profile.transportCostPerKm, lang)}/km
+          </Row>
           <Row label={t("transport_max_km", lang)}>{formatKm(profile.maxTransportKm, lang)}</Row>
         </Group>
 
@@ -93,19 +109,32 @@ function ProfilePage() {
               <option value="hi">हिंदी</option>
             </select>
           </Row>
-          <Row label="GPS">{profile.lat ? `${profile.lat.toFixed(3)}, ${profile.lon?.toFixed(3)}` : "—"}</Row>
-          <Row label={INCOME_KEY[profile.incomeTier]}>{t(INCOME_KEY[profile.incomeTier], lang)}</Row>
+          <Row label="GPS">
+            {profile.lat ? `${profile.lat.toFixed(3)}, ${profile.lon?.toFixed(3)}` : "—"}
+          </Row>
+          <Row label={INCOME_KEY[profile.incomeTier]}>
+            {t(INCOME_KEY[profile.incomeTier], lang)}
+          </Row>
         </Group>
 
         <div className="flex flex-col gap-2">
-          <Link to="/onboarding" className="bg-brand text-brand-foreground text-sm font-semibold py-3 px-4 rounded-xl text-center">
+          <Link
+            to="/onboarding"
+            className="bg-brand text-brand-foreground text-sm font-semibold py-3 px-4 rounded-xl text-center"
+          >
             {t("edit_farm", lang)}
           </Link>
-          <Link to="/schemes" className="bg-surface ring-1 ring-black/5 text-sm font-semibold py-3 px-4 rounded-xl text-center text-foreground">
+          <Link
+            to="/schemes"
+            className="bg-surface ring-1 ring-black/5 text-sm font-semibold py-3 px-4 rounded-xl text-center text-foreground"
+          >
             {t("schemes", lang)}
           </Link>
           <button
-            onClick={() => { clear(); router.navigate({ to: "/" }); }}
+            onClick={() => {
+              clear();
+              router.navigate({ to: "/" });
+            }}
             className="text-xs font-semibold text-muted-foreground py-2"
           >
             {t("clear_all", lang)}
@@ -119,7 +148,9 @@ function ProfilePage() {
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="bg-surface ring-1 ring-black/5 rounded-2xl p-4">
-      <h2 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">{title}</h2>
+      <h2 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+        {title}
+      </h2>
       <dl className="divide-y divide-border/70">{children}</dl>
     </section>
   );

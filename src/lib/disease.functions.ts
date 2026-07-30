@@ -27,7 +27,8 @@ export type Diagnosis = z.infer<typeof DiagnosisSchema>;
 
 const TIER: Record<string, string> = {
   low: "Farmer income LOW: recommend ONLY cheap solutions — neem oil, cow urine spray, wood ash, tobacco decoction, hand-picking pests, mulching, crop rotation. No pesticides above ₹300. Mention free govt Soil Health Card if soil issue.",
-  middle: "Farmer income MIDDLE: recommend affordable generic pesticides (mancozeb, carbendazim under ₹800), knapsack sprayer, foliar urea.",
+  middle:
+    "Farmer income MIDDLE: recommend affordable generic pesticides (mancozeb, carbendazim under ₹800), knapsack sprayer, foliar urea.",
   high: "Farmer income HIGH: branded plant-protection chemicals, precision spraying, lab soil test, imported biopesticides ok.",
 };
 

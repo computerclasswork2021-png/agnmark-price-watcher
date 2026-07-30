@@ -41,46 +41,46 @@
 :root {
   --radius: 0.875rem;
 
-  /* zinc-100 background, zinc-50 surfaces, zinc-900 ink */
-  --background: oklch(0.967 0.001 286.375);   /* zinc-100 */
-  --foreground: oklch(0.21 0.006 285.885);    /* zinc-900 */
-  --surface: oklch(0.985 0 0);                /* zinc-50 */
-  --surface-2: oklch(0.967 0.001 286.375 / 0.5);
-  --card: oklch(0.985 0 0);
-  --card-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.92 0.004 286.32);
-  --muted-foreground: oklch(0.552 0.016 285.938);
+  /* Premium light theme: warm creams & earth tones */
+  --background: oklch(0.99 0 0); /* Minimal warm white */
+  --foreground: oklch(0.14 0.01 270); /* Deep charcoal */
+  --surface: oklch(1 0 0); /* Pure white glass surfaces */
+  --surface-2: oklch(0.97 0.002 90); /* Subtle cream */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.01 270);
+  --muted: oklch(0.92 0.005 90);
+  --muted-foreground: oklch(0.48 0.025 155);
   --border: oklch(0 0 0 / 0.08);
-  --ring: oklch(0.552 0.016 285.938);
+  --ring: oklch(0.48 0.025 155);
 
-  /* Brand: rugged forest green #166534 */
-  --brand: oklch(0.472 0.115 148);
-  --brand-foreground: oklch(0.985 0 0);
+  /* Premium earth tones */
+  --brand: oklch(0.5 0.14 155); /* Forest green - primary */
+  --brand-foreground: oklch(1 0 0);
 
-  /* Accent: burnt clay #9a3412 */
-  --accent: oklch(0.478 0.147 43);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Accent: Warm terracotta */
+  --accent: oklch(0.56 0.15 35); /* Warm terracotta - accent */
+  --accent-foreground: oklch(1 0 0);
 
-  --good: oklch(0.527 0.145 150);   /* green-700 */
-  --warn: oklch(0.828 0.189 84);    /* amber-500 */
-  --bad:  oklch(0.577 0.245 27);    /* red-600 */
+  --good: oklch(0.56 0.15 155); /* Success green */
+  --warn: oklch(0.74 0.17 70); /* Warning amber */
+  --bad: oklch(0.6 0.25 25); /* Danger red */
 }
 
 .dark {
-  --background: oklch(0.14 0.006 285);
-  --foreground: oklch(0.985 0 0);
-  --surface: oklch(0.19 0.006 285);
-  --surface-2: oklch(0.22 0.006 285);
-  --card: oklch(0.19 0.006 285);
-  --card-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.26 0.006 285);
-  --muted-foreground: oklch(0.7 0.015 286);
+  --background: oklch(0.08 0.01 270); /* Ultra dark charcoal */
+  --foreground: oklch(0.98 0.01 90); /* Off-white */
+  --surface: oklch(0.13 0.01 270); /* Dark surface */
+  --surface-2: oklch(0.17 0.01 270); /* Slightly lighter */
+  --card: oklch(0.13 0.01 270);
+  --card-foreground: oklch(0.98 0.01 90);
+  --muted: oklch(0.26 0.01 270);
+  --muted-foreground: oklch(0.75 0.025 155);
   --border: oklch(1 0 0 / 0.1);
-  --ring: oklch(0.552 0.016 286);
-  --brand: oklch(0.6 0.13 148);
-  --brand-foreground: oklch(0.14 0.006 285);
-  --accent: oklch(0.6 0.15 43);
-  --accent-foreground: oklch(0.14 0.006 285);
+  --ring: oklch(0.75 0.025 155);
+  --brand: oklch(0.64 0.14 155); /* Lighter forest green */
+  --brand-foreground: oklch(0.08 0.01 270);
+  --accent: oklch(0.68 0.16 35); /* Lighter terracotta */
+  --accent-foreground: oklch(0.08 0.01 270);
 }
 
 @layer base {

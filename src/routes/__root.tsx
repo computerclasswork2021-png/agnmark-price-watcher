@@ -93,9 +93,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Dashboard — PREDI-FARM X" },
-      { name: "twitter:description", content: "Your farm's decision engine: today's best action, risk score, weather, mandi ranking and daily tasks in one place." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a50e49dd-d7bb-4e0d-9d60-1de76a3b9f15/id-preview-f111c625--7bbae4ce-f469-4e34-a2dd-56ffab7c165d.lovable.app-1784742258074.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a50e49dd-d7bb-4e0d-9d60-1de76a3b9f15/id-preview-f111c625--7bbae4ce-f469-4e34-a2dd-56ffab7c165d.lovable.app-1784742258074.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Your farm's decision engine: today's best action, risk score, weather, mandi ranking and daily tasks in one place.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a50e49dd-d7bb-4e0d-9d60-1de76a3b9f15/id-preview-f111c625--7bbae4ce-f469-4e34-a2dd-56ffab7c165d.lovable.app-1784742258074.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a50e49dd-d7bb-4e0d-9d60-1de76a3b9f15/id-preview-f111c625--7bbae4ce-f469-4e34-a2dd-56ffab7c165d.lovable.app-1784742258074.png",
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
