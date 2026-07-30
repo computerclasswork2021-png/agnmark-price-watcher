@@ -13,8 +13,27 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { AlertTriangle, Droplets, Leaf, Sprout, TrendingDown, TrendingUp, FlaskConical, Info } from "lucide-react";
-import { FactorRow, GlassCard, NutrientBar, Pill, ScoreGauge, SectionTitle, StatTile, Explain, toneForScore } from "./primitives";
+import {
+  AlertTriangle,
+  Droplets,
+  Leaf,
+  Sprout,
+  TrendingDown,
+  TrendingUp,
+  FlaskConical,
+  Info,
+} from "lucide-react";
+import {
+  FactorRow,
+  GlassCard,
+  NutrientBar,
+  Pill,
+  ScoreGauge,
+  SectionTitle,
+  StatTile,
+  Explain,
+  toneForScore,
+} from "./primitives";
 import type { SoilAnalysis } from "@/lib/soil";
 import { evaluateSoil, IDEAL, TEXTURE_META } from "@/lib/soil/scoring";
 import type { SoilRecord } from "@/lib/soil/types";
@@ -137,47 +156,47 @@ export function SoilDashboard({
       {/* Hero */}
       <HoverElevation>
         <GlassCard className="p-5">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
-          <ScoreGauge score={health.score} category={health.category} />
-          <div className="flex-1 w-full grid gap-2.5">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <Pill tone="brand">{SOURCE_LABEL[record.source]}</Pill>
-              <Pill
-                tone={health.confidence >= 80 ? "good" : health.confidence >= 60 ? "warn" : "bad"}
-              >
-                {health.confidence}% confidence
-              </Pill>
-              {delta !== null && (
-                <Pill tone={delta >= 0 ? "good" : "bad"}>
-                  {delta >= 0 ? (
-                    <TrendingUp className="size-3" />
-                  ) : (
-                    <TrendingDown className="size-3" />
-                  )}
-                  {delta >= 0 ? "+" : ""}
-                  {delta} vs last test
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <ScoreGauge score={health.score} category={health.category} />
+            <div className="flex-1 w-full grid gap-2.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Pill tone="brand">{SOURCE_LABEL[record.source]}</Pill>
+                <Pill
+                  tone={health.confidence >= 80 ? "good" : health.confidence >= 60 ? "warn" : "bad"}
+                >
+                  {health.confidence}% confidence
                 </Pill>
-              )}
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              {health.confidenceBasis}
-            </p>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <Meta
-                label="Last analysis"
-                value={`${new Date(record.context.testedOn).toLocaleDateString("en-IN")} · ${daysSince}d ago`}
-              />
-              <Meta
-                label="Field"
-                value={`${record.context.fieldName || "Field"} · ${record.context.fieldSizeAcres} acre`}
-              />
-              <Meta label="Soil type" value={TYPE_LABEL[m.soilType] ?? m.soilType} />
-              <Meta label="Texture" value={TEXTURE_META[m.texture].label} />
-              <Meta label="Colour" value={COLOR_LABEL[m.color] ?? m.color} />
-              <Meta label="Season" value={record.context.season} />
+                {delta !== null && (
+                  <Pill tone={delta >= 0 ? "good" : "bad"}>
+                    {delta >= 0 ? (
+                      <TrendingUp className="size-3" />
+                    ) : (
+                      <TrendingDown className="size-3" />
+                    )}
+                    {delta >= 0 ? "+" : ""}
+                    {delta} vs last test
+                  </Pill>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {health.confidenceBasis}
+              </p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <Meta
+                  label="Last analysis"
+                  value={`${new Date(record.context.testedOn).toLocaleDateString("en-IN")} · ${daysSince}d ago`}
+                />
+                <Meta
+                  label="Field"
+                  value={`${record.context.fieldName || "Field"} · ${record.context.fieldSizeAcres} acre`}
+                />
+                <Meta label="Soil type" value={TYPE_LABEL[m.soilType] ?? m.soilType} />
+                <Meta label="Texture" value={TEXTURE_META[m.texture].label} />
+                <Meta label="Colour" value={COLOR_LABEL[m.color] ?? m.color} />
+                <Meta label="Season" value={record.context.season} />
+              </div>
             </div>
           </div>
-        </div>
         </GlassCard>
       </HoverElevation>
 
